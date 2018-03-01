@@ -3,6 +3,7 @@
 {-# LANGUAGE OverloadedLabels  #-}
 {-# LANGUAGE PolyKinds         #-}
 {-# LANGUAGE TypeOperators     #-}
+{-# OPTIONS_GHC -fno-warn-orphans #-}
 
 module ScrapBook.Fetch where
 
