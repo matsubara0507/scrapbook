@@ -14,7 +14,7 @@ import           ScrapBook.Fetch.Internal (Fetch (..))
 import           Text.Atom.Feed
 
 instance Fetch ("feed" >: Text) where
-  fetchFrom _ = const (pure [])
+  fetchFrom _ _ _ = pure []
 
 toEntry :: Post -> Entry
 toEntry post =

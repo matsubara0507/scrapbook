@@ -8,6 +8,7 @@ module ScrapBook.Fetch where
 
 import           Control.Lens             ((^.))
 import           Data.Extensible
+import           Data.Functor.Identity
 import           Data.Proxy               (Proxy (..))
 import           Data.Text                (Text)
 import           ScrapBook.Collecter
@@ -18,7 +19,7 @@ import           ScrapBook.Fetch.Internal (Fetch (..))
 fetch :: Site -> Collecter [Post]
 fetch site = flip matchField (site ^. #id) $
   htabulateFor (Proxy :: Proxy Fetch) $
-    \m -> Field (Match . pure $ fetchFrom m site)
+    \m -> Field (Match $ fetchFrom m site . runIdentity)
 
 instance Fetch ("url" >: Text) where
-  fetchFrom _ = const (pure [])
+  fetchFrom _ _ _ = pure []
