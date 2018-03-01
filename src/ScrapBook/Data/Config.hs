@@ -13,7 +13,16 @@ import           Data.Yaml
 import           ScrapBook.Data.Site
 import           ScrapBook.Internal.Utils        (embedM)
 
-type Config = [SiteConfig]
+type Config = Record
+  '[ "feed"  >: Maybe FeedConfig
+   , "sites" >: [SiteConfig]
+   ]
+
+type FeedConfig = Record
+  '[ "title"   >: Text
+   , "baseUrl" >: Text
+   , "name"    >: Maybe Text
+   ]
 
 type SiteConfig = Record
   '[ "title"  >: Text

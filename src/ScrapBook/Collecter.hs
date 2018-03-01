@@ -18,7 +18,7 @@ type Collecter = Eff
 
 data CollectError
   = FetchException (Either HttpException Text)
-  | CollectExcepion Text
+  | CollectException Text
   deriving (Show, Eq)
 
 instance Eq HttpException where

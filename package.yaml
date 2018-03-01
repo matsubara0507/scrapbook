@@ -24,6 +24,7 @@ dependencies:
 library:
   source-dirs: src
   dependencies:
+  - containers
   - data-default
   - exceptions
   - feed
@@ -33,6 +34,7 @@ library:
   - shelly
   - text-conversions
   - yaml
+  - xml-conduit
 
 executables:
   scrapbook-exe:
