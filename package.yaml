@@ -1,0 +1,43 @@
+name:                scrapbook
+version:             0.1.0.0
+github:              "matsubara0507/scrapbook"
+license:             MIT
+author:              "MATSUBARA Nobutada"
+copyright:           "2018 MATSUBARA Nobutada"
+
+extra-source-files:
+- README.md
+- CHANGELOG.md
+
+description:         Please see the README on Github at <https://github.com/matsubara0507/scrapbook#readme>
+
+dependencies:
+- base >= 4.7 && < 5
+- extensible
+- extensible-instances
+- lens
+
+library:
+  source-dirs: src
+
+executables:
+  scrapbook-exe:
+    main:                Main.hs
+    source-dirs:         app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - scrapbook
+
+tests:
+  scrapbook-test:
+    main:                Spec.hs
+    source-dirs:         test
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - scrapbook
