@@ -16,9 +16,13 @@ dependencies:
 - extensible
 - extensible-instances
 - lens
+- text
 
 library:
   source-dirs: src
+  dependencies:
+  - feed
+  - yaml
 
 executables:
   scrapbook-exe:
