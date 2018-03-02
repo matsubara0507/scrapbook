@@ -18,6 +18,7 @@ type Collecter = Eff
 
 data CollectError
   = FetchException (Either HttpException Text)
+  | WriteException Text
   | CollectException Text
   deriving (Show, Eq)
 
