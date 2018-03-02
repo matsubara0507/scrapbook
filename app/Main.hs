@@ -28,7 +28,7 @@ main = withGetOpt "[options] [input-file]" opts $ \r args -> do
     Right conf -> do
       result <- run (opts' ^. #write) conf
       case result of
-        Right txt -> writeOutput opts' txt
+        Right txt -> writeOutput opts' conf txt
         Left err  -> T.hPutStrLn stderr (pack $ show err)
   where
     opts = #output @= outputOpt
@@ -41,8 +41,10 @@ readInput opt =
     Just path -> decodeFileEither path
     Nothing   -> (decodeEither' . T.encodeUtf8) <$> T.getContents
 
-writeOutput :: Options -> Text -> IO ()
-writeOutput opts txt =
+writeOutput :: Options -> Config -> Text -> IO ()
+writeOutput opts conf txt =
   case opts ^. #output of
-    Just path -> T.writeFile path txt
-    Nothing   -> T.putStrLn txt
+    Just dir -> T.writeFile (mconcat [dir, "/", name]) txt
+    Nothing  -> T.putStrLn txt
+  where
+    name = fileName conf $ opts ^. #write

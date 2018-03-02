@@ -7,6 +7,7 @@
 
 module ScrapBook.Write
     ( write
+    , fileName
     , Write (..)
     ) where
 
@@ -26,5 +27,11 @@ write conf fmt posts = flip matchField fmt $
   htabulateFor (Proxy :: Proxy Write) $
     \m -> Field (Match . pure $ writeTo m conf posts)
 
+fileName :: Config -> Format -> FilePath
+fileName conf = matchField $
+  htabulateFor (Proxy :: Proxy Write) $
+    \m -> Field (Match . pure $ fileName' m conf)
+
 instance Write ("json" >: ()) where
   writeTo _ _conf _posts = throwWriteError "undefined write to json."
+  fileName' _ _conf = "posts.json"

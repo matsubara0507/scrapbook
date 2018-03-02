@@ -8,7 +8,7 @@ import           Control.Lens                    ((^.))
 import           Data.Extensible
 import           Data.Extensible.Instances.Aeson ()
 import           Data.Maybe                      (fromMaybe)
-import           Data.Text                       (Text)
+import           Data.Text                       (Text, unpack)
 import           Data.Yaml
 import           ScrapBook.Data.Site
 import           ScrapBook.Internal.Utils        (embedM)
@@ -45,3 +45,6 @@ toSite conf
 toSiteId :: SiteConfig -> SiteId
 toSiteId conf = fromMaybe (embed $ #url @= conf ^. #url)
   $ embedM (#feed <@=> conf ^. #feed)
+
+feedName :: FeedConfig -> FilePath
+feedName conf = maybe "atom.xml" unpack (conf ^. #name)

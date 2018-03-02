@@ -13,25 +13,27 @@ module ScrapBook.Feed
   , fromEntry
   ) where
 
-import           Control.Lens             (view, (<&>), (^.))
-import           Control.Monad.IO.Class   (liftIO)
+import           Control.Lens                      (view, (<&>), (^.))
+import           Control.Monad.IO.Class            (liftIO)
+import           Data.Default                      (def)
 import           Data.Extensible
-import           Data.List                (sortOn)
-import           Data.Maybe               (fromMaybe, listToMaybe)
-import           Data.Set                 (Set, toList)
-import           Data.Text                (Text, pack, unpack)
-import           Data.Text.Lazy           (toStrict)
+import           Data.Extensible.Instances.Default ()
+import           Data.List                         (sortOn)
+import           Data.Maybe                        (fromMaybe, listToMaybe)
+import           Data.Set                          (Set, toList)
+import           Data.Text                         (Text, pack, unpack)
+import           Data.Text.Lazy                    (toStrict)
 import           ScrapBook.Collecter
 import           ScrapBook.Data.Config
 import           ScrapBook.Data.Site
-import           ScrapBook.Fetch.Internal (Fetch (..), fetchHtml,
-                                           throwFetchError)
-import           ScrapBook.Write.Internal (Write (..), throwWriteError)
-import qualified Text.Atom.Feed           as Atom
-import qualified Text.Atom.Feed.Export    as Export
-import           Text.Feed.Import         (parseFeedString)
-import           Text.Feed.Types          (Feed (..))
-import qualified Text.XML                 as XML
+import           ScrapBook.Fetch.Internal          (Fetch (..), fetchHtml,
+                                                    throwFetchError)
+import           ScrapBook.Write.Internal          (Write (..), throwWriteError)
+import qualified Text.Atom.Feed                    as Atom
+import qualified Text.Atom.Feed.Export             as Export
+import           Text.Feed.Import                  (parseFeedString)
+import           Text.Feed.Types                   (Feed (..))
+import qualified Text.XML                          as XML
 
 instance Fetch ("feed" >: Text) where
   fetchFrom _ site feedUrl = do
@@ -46,20 +48,21 @@ instance Write ("feed" >: ()) where
       maybe (throwWriteError "add feed config on yaml.") pure $ conf ^. #feed
     case toDocument (toFeed conf' posts) of
       Left err   -> throwWriteError $ mconcat (toList err)
-      Right docs -> pure $ toStrict (XML.renderText XML.def docs)
+      Right docs -> pure $ toStrict (XML.renderText def docs)
+  fileName' _ conf = feedName $ fromMaybe def (conf ^. #feed)
 
 writeFeed :: FilePath -> FeedConfig -> [Post] -> Collecter ()
 writeFeed dir conf posts =
   case toDocument (toFeed conf posts) of
     Left err   -> throwWriteError $ mconcat (toList err)
-    Right docs -> liftIO $ XML.writeFile XML.def path docs
+    Right docs -> liftIO $ XML.writeFile def path docs
   where
-    path = mconcat [dir, "/", unpack $ fromMaybe "atom.xml" (conf ^. #name)]
+    path = mconcat [dir, "/", feedName conf]
 
 toFeed :: FeedConfig -> [Post] -> Atom.Feed
 toFeed conf posts =
   (Atom.nullFeed
-    (mconcat [conf ^. #baseUrl, "/", fromMaybe "atom.xml" (conf ^. #name)])
+    (mconcat [conf ^. #baseUrl, "/", pack $ feedName conf])
     (Atom.TextString $ conf ^. #title)
     (maybe "" (view #date) $ listToMaybe posts'))
     { Atom.feedEntries = map toEntry posts'

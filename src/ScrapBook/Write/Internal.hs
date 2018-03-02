@@ -14,6 +14,7 @@ import           ScrapBook.Data.Site       (Post)
 
 class Write kv where
   writeTo :: proxy kv -> Config -> [Post] -> Collecter Text
+  fileName' :: proxy kv -> Config -> FilePath
 
 throwWriteError ::  Text -> Collecter a
 throwWriteError = throwError . WriteException
