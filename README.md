@@ -20,3 +20,7 @@ scrapbook.EXE [options] [input-file]
   -o DIR                --output=DIR                 Write output to DIR instead of stdout.
   -t FORMAT, -w FORMAT  --to=FORMAT, --write=FORMAT  Specify output format. default is `markdown`.
 ```
+
+## Example
+
+see [matsuara0507/scrapbook-example](https://github.com/matsubara0507/scrapbook-example)
