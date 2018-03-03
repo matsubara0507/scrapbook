@@ -37,6 +37,11 @@ library:
   - text-conversions
   - xml-conduit
   - xml-types
+  other-modules:
+  - ScrapBook.Feed.Atom.Internal
+  - ScrapBook.Fetch.Internal
+  - ScrapBook.Internal.Utils
+  - ScrapBook.Write.Internal
 
 executables:
   scrapbook:

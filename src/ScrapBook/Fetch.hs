@@ -6,7 +6,10 @@
 {-# LANGUAGE TypeOperators     #-}
 {-# OPTIONS_GHC -fno-warn-orphans #-}
 
-module ScrapBook.Fetch where
+module ScrapBook.Fetch
+  ( fetch
+  , Fetch (..)
+  ) where
 
 import           Control.Lens              ((^.))
 import           Control.Monad.Error.Class (throwError)
