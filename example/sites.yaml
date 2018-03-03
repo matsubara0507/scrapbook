@@ -6,7 +6,7 @@ sites:
   - title: "ひげメモ"
     author: matsubara0507
     url: https://matsubara0507.github.io
-    feed: https://matsubara0507.github.io/feed
+    atom: https://matsubara0507.github.io/feed
   - title: "TestRSS"
     author: "matsubara0507"
     url: https://github.com/matsubara0507/test-rss

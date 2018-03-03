@@ -4,6 +4,7 @@
 
 module ScrapBook.Data.Config where
 
+import           Control.Applicative             ((<|>))
 import           Control.Lens                    ((^.))
 import           Data.Extensible
 import           Data.Extensible.Instances.Aeson ()
@@ -29,6 +30,7 @@ type SiteConfig = Record
    , "author" >: Text
    , "url"    >: Text
    , "feed"   >: Maybe Text
+   , "atom"   >: Maybe Text
    ]
 
 readConfig :: FilePath -> IO (Maybe Config)
@@ -44,7 +46,8 @@ toSite conf
 
 toSiteId :: SiteConfig -> SiteId
 toSiteId conf = fromMaybe (embed $ #url @= conf ^. #url)
-  $ embedM (#feed <@=> conf ^. #feed)
+    $ embedM (#atom <@=> conf ^. #atom)
+  <|> embedM (#feed <@=> conf ^. #feed)
 
 feedName :: FeedConfig -> FilePath
 feedName conf = maybe "atom.xml" unpack (conf ^. #name)
