@@ -84,7 +84,7 @@ toEntry post =
 fromEntry :: Site -> Atom.Entry -> Post
 fromEntry site entry
     = #title @= txtToText (Atom.entryTitle entry)
-   <: #url   @= maybe "" Atom.linkHref (listToMaybe $ Atom.entryLinks entry)
+   <: #url   @= toUrl site entry
    <: #date  @= Atom.entryUpdated entry
    <: #site  @= site
    <: nil
@@ -95,3 +95,9 @@ txtToText = pack . Atom.txtToString
 toDocument :: Atom.Feed -> Either (Set Text) XML.Document
 toDocument feed = XML.fromXMLElement (Export.xmlFeed feed)
   <&> \elm -> XML.Document (XML.Prologue [] Nothing []) elm []
+
+toUrl :: Site -> Atom.Entry -> Text
+toUrl site entry =
+  maybe ""
+    (toAbsoluteUrl site . Atom.linkHref )
+    (listToMaybe $ Atom.entryLinks entry)
