@@ -10,9 +10,10 @@ import           Data.Maybe             (listToMaybe)
 import           ScrapBook.Data.Format
 
 type Options = Record
-  '[ "input" >: Maybe FilePath
-   , "output" >: Maybe FilePath
-   , "write"  >: Format
+  '[ "input"   >: Maybe FilePath
+   , "output"  >: Maybe FilePath
+   , "write"   >: Format
+   , "version" >: Bool
    ]
 
 toInput :: [String] -> Maybe FilePath
@@ -27,3 +28,6 @@ writeFormatOpt :: OptDescr' Format
 writeFormatOpt =
   optionReqArg (pure . optFormat) ['t','w'] ["to","write"]
     "FORMAT" "Specify output format. default is `markdown`."
+
+versionOpt :: OptDescr' Bool
+versionOpt = optFlag [] ["version"] "Show version"

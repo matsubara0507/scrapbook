@@ -1,5 +1,5 @@
 name:                scrapbook
-version:             0.1.0.0
+version:             0.1.1
 github:              "matsubara0507/scrapbook"
 license:             MIT
 author:              "MATSUBARA Nobutada"
@@ -45,6 +45,7 @@ executables:
     - -rtsopts
     - -with-rtsopts=-N
     dependencies:
+    - gitrev
     - scrapbook
 
 tests:
