@@ -3,6 +3,7 @@
 ## Unreleased changes
 
 - Feat: version option
+- Feat: RSS 2.0
 
 ## Alpha
 
