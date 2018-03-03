@@ -33,6 +33,7 @@ library:
   - mtl
   - req
   - shelly
+  - time
   - text-conversions
   - xml-conduit
 

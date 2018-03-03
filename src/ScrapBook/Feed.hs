@@ -23,6 +23,7 @@ import           ScrapBook.Collecter
 import           ScrapBook.Data.Config
 import           ScrapBook.Data.Site
 import           ScrapBook.Feed.Atom
+import           ScrapBook.Feed.RSS                ()
 import           ScrapBook.Fetch.Internal          (Fetch (..))
 import           ScrapBook.Write.Internal          (Write (..), throwWriteError)
 import qualified Text.XML                          as XML

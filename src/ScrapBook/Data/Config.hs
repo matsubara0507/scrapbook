@@ -31,6 +31,7 @@ type SiteConfig = Record
    , "url"    >: Text
    , "feed"   >: Maybe Text
    , "atom"   >: Maybe Text
+   , "rss"    >: Maybe Text
    ]
 
 readConfig :: FilePath -> IO (Maybe Config)
@@ -47,6 +48,7 @@ toSite conf
 toSiteId :: SiteConfig -> SiteId
 toSiteId conf = fromMaybe (embed $ #url @= conf ^. #url)
     $ embedM (#atom <@=> conf ^. #atom)
+  <|> embedM (#rss  <@=> conf ^. #rss)
   <|> embedM (#feed <@=> conf ^. #feed)
 
 feedName :: FeedConfig -> FilePath

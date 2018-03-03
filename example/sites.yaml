@@ -11,3 +11,7 @@ sites:
     author: "matsubara0507"
     url: https://github.com/matsubara0507/test-rss
     feed: https://github.com/matsubara0507/test-rss/releases.atom
+  - title: "あどけない話"
+    author: "kazu-yamamoto"
+    url: http://d.hatena.ne.jp/kazu-yamamoto
+    rss: http://d.hatena.ne.jp/kazu-yamamoto/rss2

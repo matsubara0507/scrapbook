@@ -27,6 +27,7 @@ type Site = Record
 type SiteId = Variant
   '[ "feed" >: Text
    , "atom" >: Text
+   , "rss"  >: Text -- ^ RSS 2.0
    , "url"  >: Url
    ]
 
