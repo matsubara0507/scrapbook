@@ -23,10 +23,10 @@ import           Data.Set                          (Set)
 import           Data.Text                         (Text, pack, unpack)
 import           ScrapBook.Data.Config
 import           ScrapBook.Data.Site
+import qualified ScrapBook.Feed.Atom.Internal      as My
 import           ScrapBook.Fetch.Internal          (Fetch (..), fetchHtml,
                                                     throwFetchError)
 import qualified Text.Atom.Feed                    as Atom
-import qualified Text.Atom.Feed.Export             as Export
 import           Text.Feed.Import                  (parseFeedString)
 import           Text.Feed.Types                   (Feed (..))
 import qualified Text.XML                          as XML
@@ -75,7 +75,7 @@ txtToText :: Atom.TextContent -> Text
 txtToText = pack . Atom.txtToString
 
 toDocument :: Atom.Feed -> Either (Set Text) XML.Document
-toDocument feed = XML.fromXMLElement (Export.xmlFeed feed)
+toDocument feed = XML.fromXMLElement (My.xmlFeed feed)
   <&> \elm -> XML.Document (XML.Prologue [] Nothing []) elm []
 
 toUrl :: Site -> Atom.Entry -> Text

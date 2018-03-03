@@ -36,6 +36,7 @@ library:
   - time
   - text-conversions
   - xml-conduit
+  - xml-types
 
 executables:
   scrapbook:
