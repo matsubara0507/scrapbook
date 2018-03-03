@@ -25,7 +25,7 @@ import           ScrapBook.Cmd
 import           System.IO                       (stderr)
 
 main :: IO ()
-main = withGetOpt "[options] [input-file]" opts $ \r args -> do
+main = withGetOpt "[options] [input-file]" opts $ \r args ->
   case toCmd (#input @= toInput args <: r) of
     RunScrapBook opts' -> runScrapBook opts'
     PrintVersion       -> putStrLn $ showVersion version
