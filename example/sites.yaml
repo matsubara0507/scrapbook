@@ -11,6 +11,10 @@ sites:
     author: "matsubara0507"
     url: https://github.com/matsubara0507/test-rss
     feed: https://github.com/matsubara0507/test-rss/releases.atom
+  - title: "BLOG dayo - nodejs, haskellなど"
+    author: "Daishi Nakajima"
+    url: http://blog.nakaji.me
+    feed: http://blog.nakaji.me/rss
   - title: "あどけない話"
     author: "kazu-yamamoto"
     url: http://d.hatena.ne.jp/kazu-yamamoto

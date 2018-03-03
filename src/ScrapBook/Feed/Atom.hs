@@ -7,8 +7,8 @@
 {-# OPTIONS_GHC -fno-warn-orphans #-}
 
 module ScrapBook.Feed.Atom
-  ( fetchFromAtomFeed
-  , toFeed
+  ( fromAtomFeed
+  , toAtomFeed
   , toEntry
   , fromEntry
   , toDocument
@@ -21,7 +21,6 @@ import           Data.List                         (sortOn)
 import           Data.Maybe                        (listToMaybe)
 import           Data.Set                          (Set)
 import           Data.Text                         (Text, pack, unpack)
-import           ScrapBook.Collecter
 import           ScrapBook.Data.Config
 import           ScrapBook.Data.Site
 import           ScrapBook.Fetch.Internal          (Fetch (..), fetchHtml,
@@ -33,17 +32,17 @@ import           Text.Feed.Types                   (Feed (..))
 import qualified Text.XML                          as XML
 
 instance Fetch ("atom" >: Text) where
-  fetchFrom _ = fetchFromAtomFeed
+  fetchFrom _ site feedUrl = do
+    resp <- unpack <$> fetchHtml feedUrl
+    case parseFeedString resp of
+      Just (AtomFeed feed) -> pure $ fromAtomFeed site feed
+      _                    -> throwFetchError (Right "can't parse atom feed.")
 
-fetchFromAtomFeed :: Site -> Text -> Collecter [Post]
-fetchFromAtomFeed site feedUrl = do
-  resp <- unpack <$> fetchHtml feedUrl
-  case parseFeedString resp of
-    Just (AtomFeed feed) -> pure $ fromEntry site <$> Atom.feedEntries feed
-    _                    -> throwFetchError (Right "can't parse atom feed.")
+fromAtomFeed :: Site -> Atom.Feed -> [Post]
+fromAtomFeed site feed = fromEntry site <$> Atom.feedEntries feed
 
-toFeed :: FeedConfig -> [Post] -> Atom.Feed
-toFeed conf posts =
+toAtomFeed :: FeedConfig -> [Post] -> Atom.Feed
+toAtomFeed conf posts =
   (Atom.nullFeed
     (mconcat [conf ^. #baseUrl, "/", pack $ feedName conf])
     (Atom.TextString $ conf ^. #title)
