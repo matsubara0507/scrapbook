@@ -9,6 +9,8 @@ module ScrapBook.Data.Site
   , Date
   , Url
   , toAbsoluteUrl
+  , Summary (..)
+  , summaryToText
   ) where
 
 import           Control.Lens             ((^.))
@@ -32,13 +34,23 @@ type SiteId = Variant
    ]
 
 type Post = Record
-  '[ "title" >: Text
-   , "url"   >: Url
-   , "date"  >: Date
-   , "site"  >: Site
+  '[ "title"   >: Text
+   , "url"     >: Url
+   , "date"    >: Date
+   , "summary" >: Maybe Summary
+   , "site"    >: Site
    ]
 
 type Url = Text
+
+data Summary
+  = TextSummary Text
+  | HtmlSummary Text
+  deriving (Show, Eq)
+
+summaryToText :: Summary -> Text
+summaryToText (TextSummary txt) = txt
+summaryToText (HtmlSummary txt) = txt
 
 toAbsoluteUrl :: Site -> Url -> Url
 toAbsoluteUrl site url =

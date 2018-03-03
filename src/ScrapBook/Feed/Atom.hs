@@ -60,15 +60,16 @@ toEntry post =
     { Atom.entryAuthors =
         [ Atom.nullPerson { Atom.personName = post ^. #site ^. #author } ]
     , Atom.entryLinks = [Atom.nullLink $ post ^. #url]
-    , Atom.entryContent = Just (Atom.HTMLContent "")
+    , Atom.entrySummary = fmap fromSummary (post ^. #summary)
     }
 
 fromEntry :: Site -> Atom.Entry -> Post
 fromEntry site entry
-    = #title @= txtToText (Atom.entryTitle entry)
-   <: #url   @= toUrl site entry
-   <: #date  @= Atom.entryUpdated entry
-   <: #site  @= site
+    = #title   @= txtToText (Atom.entryTitle entry)
+   <: #url     @= toUrl site entry
+   <: #date    @= Atom.entryUpdated entry
+   <: #summary @= (toSummary =<< Atom.entrySummary entry)
+   <: #site    @= site
    <: nil
 
 txtToText :: Atom.TextContent -> Text
@@ -83,3 +84,12 @@ toUrl site entry =
   maybe ""
     (toAbsoluteUrl site . Atom.linkHref )
     (listToMaybe $ Atom.entryLinks entry)
+
+toSummary :: Atom.TextContent -> Maybe Summary
+toSummary (Atom.TextString txt) = Just $ TextSummary txt
+toSummary (Atom.HTMLString txt) = Just $ HtmlSummary txt
+toSummary _                     = Nothing
+
+fromSummary :: Summary -> Atom.TextContent
+fromSummary (TextSummary txt) = Atom.TextString txt
+fromSummary (HtmlSummary txt) = Atom.HTMLString txt

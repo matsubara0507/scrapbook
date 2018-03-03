@@ -36,10 +36,11 @@ fromRSSFeed site feed = fromEntry site <$> RSS.rssItems (RSS.rssChannel feed)
 
 fromEntry :: Site -> RSSItem -> Post
 fromEntry site entry
-    = #title @= fromMaybe "" (RSS.rssItemTitle entry)
-   <: #url   @= toUrl site entry
-   <: #date  @= fromMaybe "" (formatTimeFromRFC822 =<< RSS.rssItemPubDate entry)
-   <: #site  @= site
+    = #title   @= fromMaybe "" (RSS.rssItemTitle entry)
+   <: #url     @= toUrl site entry
+   <: #date    @= fromMaybe "" (formatTimeFromRFC822 =<< RSS.rssItemPubDate entry)
+   <: #summary @= HtmlSummary <$> RSS.rssItemDescription entry
+   <: #site    @= site
    <: nil
 
 toUrl :: Site -> RSSItem -> Text
