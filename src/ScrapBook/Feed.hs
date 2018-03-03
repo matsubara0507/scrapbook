@@ -84,7 +84,7 @@ toEntry post =
 fromEntry :: Site -> Atom.Entry -> Post
 fromEntry site entry
     = #title @= txtToText (Atom.entryTitle entry)
-   <: #url   @= Atom.entryId entry
+   <: #url   @= maybe "" Atom.linkHref (listToMaybe $ Atom.entryLinks entry)
    <: #date  @= Atom.entryUpdated entry
    <: #site  @= site
    <: nil

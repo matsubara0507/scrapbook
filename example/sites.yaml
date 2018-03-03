@@ -7,3 +7,7 @@ sites:
     author: matsubara0507
     url: https://matsubara0507.github.io
     feed: https://matsubara0507.github.io/feed
+  - title: "TestRSS"
+    author: "matsubara0507"
+    url: https://github.com/matsubara0507/test-rss
+    feed: https://github.com/matsubara0507/test-rss/releases.atom
