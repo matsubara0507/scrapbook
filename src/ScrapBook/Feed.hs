@@ -77,6 +77,8 @@ toEntry post =
     (post ^. #url) (Atom.TextString $ post ^. #title) (post ^. #date))
     { Atom.entryAuthors =
         [ Atom.nullPerson { Atom.personName = post ^. #site ^. #author } ]
+    , Atom.entryLinks = [Atom.nullLink $ post ^. #url]
+    , Atom.entryContent = Just (Atom.HTMLContent "")
     }
 
 fromEntry :: Site -> Atom.Entry -> Post
