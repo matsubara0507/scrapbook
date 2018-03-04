@@ -7,6 +7,7 @@
 - Fix: remove namespace in xml tag
 - Feat: summary
 - Feat: mltiple input files
+- Fix: occur error when write file on no exist directory
 
 ## Alpha
 

@@ -28,6 +28,8 @@ import           Data.Yaml                       (ParseException, decodeEither',
 import           Development.GitRev
 import           ScrapBook
 import           ScrapBook.Cmd
+import           System.Directory                (createDirectoryIfMissing)
+import           System.FilePath                 (dropFileName)
 import           System.IO                       (stderr)
 
 main :: IO ()
@@ -57,7 +59,7 @@ readInput opts = sequence $
 writeOutput :: Options -> Config -> Text -> IO ()
 writeOutput opts conf txt =
   case opts ^. #output of
-    Just dir -> T.writeFile (mconcat [dir, "/", name]) txt
+    Just dir -> writeFileWithDir (mconcat [dir, "/", name]) txt
     Nothing  -> T.putStrLn txt
   where
     name = fileName conf $ opts ^. #write
@@ -82,3 +84,8 @@ readInputD opts = taste <=< liftIO $ sequence $
 
 terr :: Show e => e -> IO ()
 terr err = T.hPutStrLn stderr (pack $ show err)
+
+writeFileWithDir :: FilePath -> Text -> IO ()
+writeFileWithDir path txt = do
+  createDirectoryIfMissing True $ dropFileName path
+  T.writeFile path txt
