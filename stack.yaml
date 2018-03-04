@@ -2,5 +2,6 @@ resolver: lts-10.7
 packages:
 - .
 extra-deps:
+- drinkery-0.1
 - git: https://github.com/matsubara0507/extensible-instances.git
   commit: 8dabe7a3dd9cf162e2d81e4ca16dbe73b98a3809

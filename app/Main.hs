@@ -1,14 +1,20 @@
-{-# LANGUAGE DataKinds         #-}
-{-# LANGUAGE OverloadedLabels  #-}
-{-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE TemplateHaskell   #-}
-{-# LANGUAGE TypeOperators     #-}
+{-# LANGUAGE DataKinds             #-}
+{-# LANGUAGE FlexibleContexts      #-}
+{-# LANGUAGE LambdaCase            #-}
+{-# LANGUAGE MultiParamTypeClasses #-}
+{-# LANGUAGE OverloadedLabels      #-}
+{-# LANGUAGE OverloadedStrings     #-}
+{-# LANGUAGE TemplateHaskell       #-}
+{-# LANGUAGE TypeOperators         #-}
 
 module Main where
 
 import           Paths_scrapbook                 (version)
 
 import           Control.Lens                    ((^.))
+import           Control.Monad                   ((<=<))
+import           Control.Monad.IO.Class          (liftIO)
+import           Data.Drinkery
 import           Data.Extensible
 import           Data.Extensible.GetOpt
 import           Data.Extensible.Instances.Aeson ()
@@ -26,7 +32,7 @@ import           System.IO                       (stderr)
 
 main :: IO ()
 main = withGetOpt "[options] [input-file]" opts $ \r args ->
-  case toCmd (#input @= toInput args <: r) of
+  case toCmd (#input @= args <: r) of
     RunScrapBook opts' -> runScrapBook opts'
     PrintVersion       -> putStrLn $ showVersion version
   where
@@ -36,21 +42,17 @@ main = withGetOpt "[options] [input-file]" opts $ \r args ->
         <: nil
 
 runScrapBook :: Options -> IO ()
-runScrapBook opts = do
-  config <- readInput opts
-  case config of
-    Left err  -> T.hPutStrLn stderr (pack $ show err)
-    Right conf -> do
-      result <- run (opts ^. #write) conf
-      case result of
-        Right txt -> writeOutput opts conf txt
-        Left err  -> T.hPutStrLn stderr (pack $ show err)
+runScrapBook opts = runSommelier' (readInputD opts) $&
+  traverseFrom_ drinkL (fmap liftIO $ writeOutput' opts <=< run' (opts ^. #write))
 
-readInput :: Options -> IO (Either ParseException Config)
-readInput opt =
-  case opt ^. #input of
-    Just path -> decodeFileEither path
-    Nothing   -> (decodeEither' . T.encodeUtf8) <$> T.getContents
+drinkL :: (Monoid r, MonadDrunk (Tap r [a]) m) => m [a]
+drinkL = drink
+
+readInput :: Options -> IO [Either ParseException Config]
+readInput opts = sequence $
+  case opts ^. #input of
+    []    -> pure $ (decodeEither' . T.encodeUtf8) <$> T.getContents
+    paths -> decodeFileEither <$> paths
 
 writeOutput :: Options -> Config -> Text -> IO ()
 writeOutput opts conf txt =
@@ -60,6 +62,9 @@ writeOutput opts conf txt =
   where
     name = fileName conf $ opts ^. #write
 
+writeOutput' :: Options -> Either CollectError (Config, Text) -> IO ()
+writeOutput' opts = either terr $ uncurry (writeOutput opts)
+
 showVersion :: Version -> String
 showVersion v = unwords
   [ "Version"
@@ -68,3 +73,12 @@ showVersion v = unwords
   , $(gitHash)
   , "(" ++ $(gitCommitCount) ++ " commits)"
   ]
+
+readInputD :: Options -> Sommelier () IO (Either ParseException Config)
+readInputD opts = taste <=< liftIO $ sequence $
+  case opts ^. #input of
+    []    -> pure $ (decodeEither' . T.encodeUtf8) <$> T.getContents
+    paths -> decodeFileEither <$> paths
+
+terr :: Show e => e -> IO ()
+terr err = T.hPutStrLn stderr (pack $ show err)

@@ -10,14 +10,11 @@ import           Data.Maybe             (listToMaybe)
 import           ScrapBook.Data.Format
 
 type Options = Record
-  '[ "input"   >: Maybe FilePath
+  '[ "input"   >: [FilePath]
    , "output"  >: Maybe FilePath
    , "write"   >: Format
    , "version" >: Bool
    ]
-
-toInput :: [String] -> Maybe FilePath
-toInput = listToMaybe
 
 outputOpt :: OptDescr' (Maybe FilePath)
 outputOpt =
