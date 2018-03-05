@@ -16,9 +16,10 @@ Right ()
 ### Command
 
 ```
-scrapbook.EXE [options] [input-file]
+scrapbook [options] [input-file]
   -o DIR                --output=DIR                 Write output to DIR instead of stdout.
-  -t FORMAT, -w FORMAT  --to=FORMAT, --write=FORMAT  Specify output format. default is `markdown`.
+  -t FORMAT, -w FORMAT  --to=FORMAT, --write=FORMAT  Specify output format. default is `feed`.
+                        --version                    Show version
 ```
 
 ## Example

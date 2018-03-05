@@ -8,6 +8,8 @@
 - Feat: summary
 - Feat: mltiple input files
 - Fix: occur error when write file on no exist directory
+- Feat: default output file name is input file name
+- Fix: help message
 
 ## Alpha
 
