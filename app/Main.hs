@@ -11,7 +11,7 @@ module Main where
 
 import           Paths_scrapbook                 (version)
 
-import           Control.Lens                    (over, (%~), (&), (^.))
+import           Control.Lens                    ((^.))
 import           Control.Monad                   ((<=<))
 import           Control.Monad.IO.Class          (liftIO)
 import           Data.Drinkery
@@ -29,9 +29,7 @@ import           Development.GitRev
 import           ScrapBook
 import           ScrapBook.Cmd
 import           System.Directory                (createDirectoryIfMissing)
-import           System.FilePath                 (dropFileName,
-                                                  replaceExtension,
-                                                  takeFileName)
+import           System.FilePath                 (dropFileName)
 import           System.IO                       (stderr)
 
 main :: IO ()
@@ -56,7 +54,10 @@ readInput :: Options -> IO [Either ParseException Config]
 readInput opts = sequence $
     case opts ^. #input of
       []    -> pure $ (decodeEither' . T.encodeUtf8) <$> T.getContents
-      paths -> (fmap . fmap . updateFeedName <*> decodeFileEither) <$> paths
+      paths -> decodeFileEither' <$> paths
+  where
+    decodeFileEither' path =
+      fmap (updateFileName (opts ^. #write) path) <$> decodeFileEither path
 
 readInputD :: Options -> Sommelier () IO (Either ParseException Config)
 readInputD = taste <=< liftIO . readInput
@@ -88,9 +89,3 @@ writeFileWithDir :: FilePath -> Text -> IO ()
 writeFileWithDir path txt = do
   createDirectoryIfMissing True $ dropFileName path
   T.writeFile path txt
-
-updateFeedName :: FilePath -> Config -> Config
-updateFeedName path conf =
-  conf & #feed %~ fmap (over #name $ maybe (pure $ pack name) pure)
-  where
-    name = replaceExtension (takeFileName path) ".xml"

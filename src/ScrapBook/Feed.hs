@@ -10,14 +10,14 @@ module ScrapBook.Feed
   ( writeFeed
   ) where
 
-import           Control.Lens                      ((^.))
+import           Control.Lens                      (over, (%~), (&), (^.))
 import           Control.Monad.IO.Class            (liftIO)
 import           Data.Default                      (def)
 import           Data.Extensible
 import           Data.Extensible.Instances.Default ()
 import           Data.Maybe                        (fromMaybe)
 import           Data.Set                          (toList)
-import           Data.Text                         (Text, unpack)
+import           Data.Text                         (Text, pack, unpack)
 import           Data.Text.Lazy                    (toStrict)
 import           ScrapBook.Collecter
 import           ScrapBook.Data.Config
@@ -27,6 +27,8 @@ import           ScrapBook.Feed.RSS                (fromRSSFeed)
 import           ScrapBook.Fetch.Internal          (Fetch (..), fetchHtml,
                                                     throwFetchError)
 import           ScrapBook.Write.Internal          (Write (..), throwWriteError)
+import           System.FilePath                   (replaceExtension,
+                                                    takeFileName)
 import           Text.Feed.Import                  (parseFeedString)
 import           Text.Feed.Types                   (Feed (..))
 import qualified Text.XML                          as XML
@@ -47,6 +49,11 @@ instance Write ("feed" >: ()) where
       Left err   -> throwWriteError $ mconcat (toList err)
       Right docs -> pure $ toStrict (XML.renderText def docs)
   fileName' _ conf = feedName $ fromMaybe def (conf ^. #feed)
+  updateFileName' _ path conf =
+    conf & #feed %~ fmap (over #name $ maybe (pure $ pack name) pure)
+    where
+      name = replaceExtension (takeFileName path) "xml"
+
 
 writeFeed :: FilePath -> FeedConfig -> [Post] -> Collecter ()
 writeFeed dir conf posts =
