@@ -26,6 +26,8 @@ dependencies:
 library:
   source-dirs: src
   dependencies:
+  - aeson
+  - aeson-pretty
   - containers
   - data-default
   - exceptions
@@ -36,6 +38,7 @@ library:
   - shelly
   - time
   - text-conversions
+  - unordered-containers
   - xml-conduit
   - xml-types
   other-modules:

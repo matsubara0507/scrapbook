@@ -16,13 +16,14 @@ import           ScrapBook.Internal.Utils        (embedM)
 
 type Config = Record
   '[ "feed"  >: Maybe FeedConfig
+   , "json"  >: Maybe Text        -- ^ output file name
    , "sites" >: [SiteConfig]
    ]
 
 type FeedConfig = Record
   '[ "title"   >: Text
    , "baseUrl" >: Text
-   , "name"    >: Maybe Text
+   , "name"    >: Maybe Text      -- ^ output file name
    ]
 
 type SiteConfig = Record

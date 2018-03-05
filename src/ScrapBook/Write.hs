@@ -1,6 +1,5 @@
 {-# LANGUAGE DataKinds         #-}
 {-# LANGUAGE FlexibleInstances #-}
-{-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE PolyKinds         #-}
 {-# LANGUAGE TypeOperators     #-}
 {-# OPTIONS_GHC -fno-warn-orphans #-}
@@ -21,7 +20,8 @@ import           ScrapBook.Data.Config    (Config)
 import           ScrapBook.Data.Format    (Format)
 import           ScrapBook.Data.Site      (Post)
 import           ScrapBook.Feed           ()
-import           ScrapBook.Write.Internal (Write (..), throwWriteError)
+import           ScrapBook.Json           ()
+import           ScrapBook.Write.Internal (Write (..))
 
 write :: Config -> Format -> [Post] -> Collecter Text
 write conf fmt posts = flip matchField fmt $
@@ -36,8 +36,3 @@ fileName conf = matchField $
 updateFileName :: Format -> FilePath -> Config -> Config
 updateFileName = matchField $
   htabulateFor (Proxy :: Proxy Write) $ Field . Match . pure . updateFileName'
-
-instance Write ("json" >: ()) where
-  writeTo _ _conf _posts = throwWriteError "undefined write to json."
-  fileName' _ _conf = "posts.json"
-  updateFileName' = undefined
