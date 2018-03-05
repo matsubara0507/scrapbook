@@ -24,7 +24,7 @@ outputOpt =
 writeFormatOpt :: OptDescr' Format
 writeFormatOpt =
   optionReqArg (pure . optFormat) ['t','w'] ["to","write"]
-    "FORMAT" "Specify output format. default is `markdown`."
+    "FORMAT" "Specify output format. default is `feed`."
 
 versionOpt :: OptDescr' Bool
 versionOpt = optFlag [] ["version"] "Show version"
