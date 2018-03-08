@@ -1,16 +1,25 @@
 feed:
   title: "Sample Site Posts"
   baseUrl: "https://example.com"
+  name: atom.xml
 
 sites:
   - title: "ひげメモ"
     author: matsubara0507
     url: https://matsubara0507.github.io
-    atom: https://matsubara0507.github.io/feed
-  - title: "TestRSS"
-    author: "matsubara0507"
-    url: https://github.com/matsubara0507/test-rss
-    feed: https://github.com/matsubara0507/test-rss/releases.atom
+    atom:
+      url: https://matsubara0507.github.io/feed
+  # - title: "TestRSS"
+  #   author: "matsubara0507"
+  #   url: https://github.com/matsubara0507/test-rss
+  #   feed: https://github.com/matsubara0507/test-rss/releases.atom
+  # - title: "Kuro's Blog"
+  #   author: "Hiroyuki Kurokawa"
+  #   url: http://kurokawh.blogspot.com/
+  #   atom:
+  #     url: http://kurokawh.blogspot.com/feeds/posts/default
+  #     linkAttrs:
+  #       rel: alternate
   # - title: "BLOG dayo - nodejs, haskellなど"
   #   author: "Daishi Nakajima"
   #   url: http://blog.nakaji.me
