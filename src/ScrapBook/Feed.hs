@@ -34,10 +34,10 @@ import           Text.Feed.Types                   (Feed (..))
 import qualified Text.XML                          as XML
 
 instance Fetch ("feed" >: Text) where
-  fetchFrom _ site feedUrl = do
-    resp <- unpack <$> fetchHtml feedUrl
+  fetchFrom _ site url = do
+    resp <- unpack <$> fetchHtml url
     case parseFeedString resp of
-      Just (AtomFeed feed) -> pure $ fromAtomFeed site feed
+      Just (AtomFeed feed) -> pure $ fromAtomFeed site (toAtomConfig url) feed
       Just (RSSFeed feed)  -> pure $ fromRSSFeed  site feed
       _                    -> throwFetchError (Right "can't parse feed.")
 

@@ -5,6 +5,8 @@
 module ScrapBook.Data.Site
   ( Site
   , SiteId
+  , AtomConfig
+  , toAtomConfig
   , Post
   , Date
   , Url
@@ -13,11 +15,14 @@ module ScrapBook.Data.Site
   , summaryToText
   ) where
 
-import           Control.Lens             ((^.))
+import           Control.Lens                      ((&), (.~), (^.))
+import           Data.Default                      (def)
 import           Data.Extensible
-import           Data.Text                (Text, uncons)
-import           ScrapBook.Internal.Utils (toHost)
-import           Text.Atom.Feed           (Date)
+import           Data.Extensible.Instances.Default ()
+import           Data.Map                          (Map)
+import           Data.Text                         (Text, uncons)
+import           ScrapBook.Internal.Utils          (toHost)
+import           Text.Atom.Feed                    (Date)
 
 type Site = Record
   '[ "title"  >: Text
@@ -28,10 +33,18 @@ type Site = Record
 
 type SiteId = Variant
   '[ "feed" >: Text
-   , "atom" >: Text
+   , "atom" >: AtomConfig
    , "rss"  >: Text -- ^ RSS 2.0
    , "url"  >: Url
    ]
+
+type AtomConfig = Record
+  '[ "url"       >: Text
+   , "linkAttrs" >: Maybe (Map Text Text)
+   ]
+
+toAtomConfig :: Url -> AtomConfig
+toAtomConfig url = def & #url .~ url
 
 type Post = Record
   '[ "title"   >: Text

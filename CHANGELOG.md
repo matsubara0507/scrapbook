@@ -11,6 +11,7 @@
 - Feat: default output file name is input file name
 - Fix: help message
 - Feat: add json output format
+- Feat: add config to filter links with attr on Atom feed
 
 ## Alpha
 

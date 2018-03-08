@@ -31,7 +31,7 @@ type SiteConfig = Record
    , "author" >: Text
    , "url"    >: Text
    , "feed"   >: Maybe Text
-   , "atom"   >: Maybe Text
+   , "atom"   >: Maybe AtomConfig
    , "rss"    >: Maybe Text
    ]
 

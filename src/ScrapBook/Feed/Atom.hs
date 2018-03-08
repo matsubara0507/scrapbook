@@ -18,9 +18,12 @@ import           Control.Lens                      (view, (<&>), (^.))
 import           Data.Extensible
 import           Data.Extensible.Instances.Default ()
 import           Data.List                         (sortOn)
+import qualified Data.Map                          as Map
 import           Data.Maybe                        (listToMaybe)
 import           Data.Set                          (Set)
+import           Data.String                       (fromString)
 import           Data.Text                         (Text, pack, unpack)
+import qualified Data.XML.Types                    as XML (Content (..))
 import           ScrapBook.Data.Config
 import           ScrapBook.Data.Site
 import qualified ScrapBook.Feed.Atom.Internal      as My
@@ -31,15 +34,15 @@ import           Text.Feed.Import                  (parseFeedString)
 import           Text.Feed.Types                   (Feed (..))
 import qualified Text.XML                          as XML
 
-instance Fetch ("atom" >: Text) where
-  fetchFrom _ site feedUrl = do
-    resp <- unpack <$> fetchHtml feedUrl
+instance Fetch ("atom" >: AtomConfig) where
+  fetchFrom _ site conf = do
+    resp <- unpack <$> fetchHtml (conf ^. #url)
     case parseFeedString resp of
-      Just (AtomFeed feed) -> pure $ fromAtomFeed site feed
+      Just (AtomFeed feed) -> pure $ fromAtomFeed site conf feed
       _                    -> throwFetchError (Right "can't parse atom feed.")
 
-fromAtomFeed :: Site -> Atom.Feed -> [Post]
-fromAtomFeed site feed = fromEntry site <$> Atom.feedEntries feed
+fromAtomFeed :: Site -> AtomConfig -> Atom.Feed -> [Post]
+fromAtomFeed site conf feed = fromEntry site conf <$> Atom.feedEntries feed
 
 toAtomFeed :: FeedConfig -> [Post] -> Atom.Feed
 toAtomFeed conf posts =
@@ -63,10 +66,10 @@ toEntry post =
     , Atom.entrySummary = fmap fromSummary (post ^. #summary)
     }
 
-fromEntry :: Site -> Atom.Entry -> Post
-fromEntry site entry
+fromEntry :: Site -> AtomConfig -> Atom.Entry -> Post
+fromEntry site conf entry
     = #title   @= txtToText (Atom.entryTitle entry)
-   <: #url     @= toUrl site entry
+   <: #url     @= toUrl site conf entry
    <: #date    @= Atom.entryUpdated entry
    <: #summary @= (toSummary =<< Atom.entrySummary entry)
    <: #site    @= site
@@ -79,11 +82,17 @@ toDocument :: Atom.Feed -> Either (Set Text) XML.Document
 toDocument feed = XML.fromXMLElement (My.xmlFeed feed)
   <&> \elm -> XML.Document (XML.Prologue [] Nothing []) elm []
 
-toUrl :: Site -> Atom.Entry -> Text
-toUrl site entry =
+toUrl :: Site -> AtomConfig -> Atom.Entry -> Text
+toUrl site conf entry =
   maybe ""
     (toAbsoluteUrl site . Atom.linkHref )
-    (listToMaybe $ Atom.entryLinks entry)
+    (listToMaybe . filter (p . Atom.linkAttrs) $ Atom.entryLinks entry)
+  where
+    p attrs = all (`elem` attrs) $
+      toAttr <$> (maybe [] Map.toList $ conf ^. #linkAttrs)
+
+toAttr :: (Text, Text) -> Atom.Attr
+toAttr (k, v) = (fromString $ unpack k, [XML.ContentText v])
 
 toSummary :: Atom.TextContent -> Maybe Summary
 toSummary (Atom.TextString txt) = Just $ TextSummary txt
