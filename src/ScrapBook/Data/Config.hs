@@ -4,15 +4,14 @@
 
 module ScrapBook.Data.Config where
 
-import           Control.Applicative             ((<|>))
-import           Control.Lens                    ((^.))
+import           Control.Applicative      ((<|>))
+import           Control.Lens             ((^.))
 import           Data.Extensible
-import           Data.Extensible.Instances.Aeson ()
-import           Data.Maybe                      (fromMaybe)
-import           Data.Text                       (Text, unpack)
+import           Data.Maybe               (fromMaybe)
+import           Data.Text                (Text, unpack)
 import           Data.Yaml
 import           ScrapBook.Data.Site
-import           ScrapBook.Internal.Utils        (embedM)
+import           ScrapBook.Internal.Utils (embedM)
 
 type Config = Record
   '[ "feed"  >: Maybe FeedConfig

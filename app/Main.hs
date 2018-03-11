@@ -9,28 +9,27 @@
 
 module Main where
 
-import           Paths_scrapbook                 (version)
+import           Paths_scrapbook        (version)
 
-import           Control.Lens                    ((^.))
-import           Control.Monad                   ((<=<))
-import           Control.Monad.IO.Class          (liftIO)
+import           Control.Lens           ((^.))
+import           Control.Monad          ((<=<))
+import           Control.Monad.IO.Class (liftIO)
 import           Data.Drinkery
 import           Data.Extensible
 import           Data.Extensible.GetOpt
-import           Data.Extensible.Instances.Aeson ()
-import           Data.Text                       (Text, pack)
-import qualified Data.Text.Encoding              as T
-import qualified Data.Text.IO                    as T
-import           Data.Version                    (Version)
-import qualified Data.Version                    as Version
-import           Data.Yaml                       (ParseException, decodeEither',
-                                                  decodeFileEither)
+import           Data.Text              (Text, pack)
+import qualified Data.Text.Encoding     as T
+import qualified Data.Text.IO           as T
+import           Data.Version           (Version)
+import qualified Data.Version           as Version
+import           Data.Yaml              (ParseException, decodeEither',
+                                         decodeFileEither)
 import           Development.GitRev
 import           ScrapBook
 import           ScrapBook.Cmd
-import           System.Directory                (createDirectoryIfMissing)
-import           System.FilePath                 (dropFileName)
-import           System.IO                       (stderr)
+import           System.Directory       (createDirectoryIfMissing)
+import           System.FilePath        (dropFileName)
+import           System.IO              (stderr)
 
 main :: IO ()
 main = withGetOpt "[options] [input-file]" opts $ \r args ->

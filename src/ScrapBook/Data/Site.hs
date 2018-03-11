@@ -17,6 +17,7 @@ module ScrapBook.Data.Site
 
 import           Control.Lens                      ((&), (.~), (^.))
 import           Data.Default                      (def)
+import           Data.Default.Instances.Text       ()
 import           Data.Extensible
 import           Data.Extensible.Instances.Default ()
 import           Data.Map                          (Map)

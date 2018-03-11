@@ -1,5 +1,5 @@
 name:                scrapbook
-version:             0.1.1
+version:             0.1.2
 github:              "matsubara0507/scrapbook"
 license:             MIT
 author:              "MATSUBARA Nobutada"
@@ -30,6 +30,7 @@ library:
   - aeson-pretty
   - containers
   - data-default
+  - data-default-instances-text
   - exceptions
   - feed
   - monad-logger
