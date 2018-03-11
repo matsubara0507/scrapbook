@@ -42,7 +42,7 @@ see [matsuara0507/scrapbook-example](https://github.com/matsubara0507/scrapbook-
 
 How to write config yaml file.
 
-```
+```yaml
 # configuration for generating Atom feed (Optional)
 feed:
   ## write as site title to Atom feed
