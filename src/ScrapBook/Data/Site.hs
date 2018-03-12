@@ -66,6 +66,8 @@ summaryToText :: Summary -> Text
 summaryToText (TextSummary txt) = txt
 summaryToText (HtmlSummary txt) = txt
 
+-- |
+-- if url have prefix `/`, append base url
 toAbsoluteUrl :: Site -> Url -> Url
 toAbsoluteUrl site url =
   case uncons url of
