@@ -5,7 +5,9 @@
 
 module Test.ScrapBook.Cmd where
 
-import           Control.Lens           ((&), (.~))
+import           RIO
+
+import           Control.Lens           ((.~))
 import           Data.Extensible
 import           Data.Extensible.GetOpt
 import           ScrapBook.Cmd

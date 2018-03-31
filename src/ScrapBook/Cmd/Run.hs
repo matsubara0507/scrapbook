@@ -8,9 +8,10 @@ module ScrapBook.Cmd.Run
     , run'
     ) where
 
-import           Control.Lens ((^.))
-import           Data.Text    (Text)
-import           Data.Yaml    (ParseException)
+import           RIO
+
+import           Data.Text (Text)
+import           Data.Yaml (ParseException)
 import           ScrapBook
 
 run :: Format -> Config -> IO (Either CollectError Text)

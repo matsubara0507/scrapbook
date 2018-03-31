@@ -11,6 +11,8 @@ module ScrapBook.Feed.RSS
   , fromEntry
   ) where
 
+import           RIO
+
 import           Data.Extensible
 import           Data.Extensible.Instances.Default ()
 import           Data.Maybe                        (fromMaybe)

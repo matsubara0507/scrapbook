@@ -4,6 +4,8 @@
 
 module ScrapBook.Collecter where
 
+import           RIO
+
 import           Data.Extensible
 import           Data.Extensible.Effect.Default (EitherDef, runEitherDef)
 import           Data.Extensible.Effect.Logger

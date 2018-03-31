@@ -5,6 +5,7 @@ module ScrapBook.Write.Internal
     , throwWriteError
     ) where
 
+import           RIO
 
 import           Control.Monad.Error.Class (throwError)
 import           Data.Text                 (Text)

@@ -11,6 +11,7 @@ module ScrapBook.Write
     , Write (..)
     ) where
 
+import           RIO
 
 import           Data.Extensible
 import           Data.Proxy               (Proxy (..))

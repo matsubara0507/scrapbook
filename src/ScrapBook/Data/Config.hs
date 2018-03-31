@@ -4,8 +4,9 @@
 
 module ScrapBook.Data.Config where
 
+import           RIO
+
 import           Control.Applicative      ((<|>))
-import           Control.Lens             ((^.))
 import           Data.Extensible
 import           Data.Maybe               (fromMaybe)
 import           Data.Text                (Text, unpack)

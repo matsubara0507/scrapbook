@@ -6,7 +6,7 @@
 
 module ScrapBook.Internal.Utils where
 
-import           Prelude                hiding (takeWhile)
+import           RIO                    hiding (takeWhile)
 
 import           Control.Applicative    ((<|>))
 import           Control.Monad.IO.Class (MonadIO (..))

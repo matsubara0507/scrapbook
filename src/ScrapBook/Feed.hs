@@ -10,13 +10,14 @@ module ScrapBook.Feed
   ( writeFeed
   ) where
 
-import           Control.Lens                      (over, (%~), (&), (^.))
+import           RIO
+
+import           Control.Lens                      ((%~))
 import           Control.Monad.IO.Class            (liftIO)
 import           Data.Default                      (def)
 import           Data.Extensible
 import           Data.Extensible.Instances.Default ()
 import           Data.Maybe                        (fromMaybe)
-import           Data.Set                          (toList)
 import           Data.Text                         (Text, pack, unpack)
 import           Data.Text.Lazy                    (toStrict)
 import           ScrapBook.Collecter

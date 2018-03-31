@@ -8,6 +8,8 @@ module ScrapBook.Data.Format
   , optFormat
   ) where
 
+import           RIO
+
 import           Control.Applicative      ((<|>))
 import           Data.Default
 import           Data.Extensible

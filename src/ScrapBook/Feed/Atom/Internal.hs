@@ -9,6 +9,8 @@ module ScrapBook.Feed.Atom.Internal
     ( xmlFeed
     ) where
 
+import           RIO
+
 import           Data.Text      (Text, pack)
 import           Data.XML.Types as XML
 import           Text.Atom.Feed

@@ -2,6 +2,8 @@
 
 module Test.ScrapBook.Internal.Utils where
 
+import           RIO
+
 import           ScrapBook.Internal.Utils
 import           Test.Tasty
 import           Test.Tasty.HUnit

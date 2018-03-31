@@ -9,7 +9,8 @@ module ScrapBook.Fetch.Internal
   , throwFetchError
   ) where
 
-import           Control.Monad.Catch       (try)
+import           RIO                       hiding (logInfo)
+
 import           Control.Monad.Error.Class (throwError)
 import           Control.Monad.IO.Class    (MonadIO (..))
 import           Control.Monad.Logger      (logInfo)

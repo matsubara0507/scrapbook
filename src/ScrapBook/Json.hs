@@ -12,7 +12,9 @@ module ScrapBook.Json
     (
     ) where
 
-import           Control.Lens             ((%~), (&), (^.))
+import           RIO
+
+import           Control.Lens             ((%~))
 import           Data.Aeson               (ToJSON (..))
 import qualified Data.Aeson               as JSON
 import           Data.Aeson.Encode.Pretty (encodePretty)

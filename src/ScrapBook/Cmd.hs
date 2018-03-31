@@ -6,7 +6,8 @@ module ScrapBook.Cmd
     , toCmd
     ) where
 
-import           Control.Lens          ((^.))
+import           RIO
+
 import           ScrapBook.Cmd.Options as X
 import           ScrapBook.Cmd.Run     as X
 

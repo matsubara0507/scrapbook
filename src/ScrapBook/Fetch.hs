@@ -11,7 +11,8 @@ module ScrapBook.Fetch
   , Fetch (..)
   ) where
 
-import           Control.Lens              ((^.))
+import           RIO
+
 import           Control.Monad.Error.Class (throwError)
 import           Data.Extensible
 import           Data.Functor.Identity

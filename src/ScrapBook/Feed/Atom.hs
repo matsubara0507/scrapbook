@@ -14,7 +14,9 @@ module ScrapBook.Feed.Atom
   , toDocument
   ) where
 
-import           Control.Lens                      (view, (<&>), (^.))
+import           RIO
+
+import           Control.Lens                      ((<&>))
 import           Data.Extensible
 import           Data.Extensible.Instances.Default ()
 import           Data.List                         (sortOn)

@@ -15,7 +15,9 @@ module ScrapBook.Data.Site
   , summaryToText
   ) where
 
-import           Control.Lens                      ((&), (.~), (^.))
+import           RIO
+
+import           Control.Lens                      ((.~))
 import           Data.Default                      (def)
 import           Data.Default.Instances.Text       ()
 import           Data.Extensible

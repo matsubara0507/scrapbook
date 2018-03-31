@@ -10,8 +10,8 @@
 module Main where
 
 import           Paths_scrapbook        (version)
+import           RIO
 
-import           Control.Lens           ((^.))
 import           Control.Monad          ((<=<))
 import           Control.Monad.IO.Class (liftIO)
 import           Data.Drinkery
@@ -35,7 +35,7 @@ main :: IO ()
 main = withGetOpt "[options] [input-file]" opts $ \r args ->
   case toCmd (#input @= args <: r) of
     RunScrapBook opts' -> runScrapBook opts'
-    PrintVersion       -> putStrLn $ showVersion version
+    PrintVersion       -> T.putStrLn $ pack (showVersion version)
   where
     opts = #output  @= outputOpt
         <: #write   @= writeFormatOpt

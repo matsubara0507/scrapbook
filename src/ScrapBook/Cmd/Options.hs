@@ -4,6 +4,8 @@
 
 module ScrapBook.Cmd.Options where
 
+import           RIO
+
 import           Data.Extensible
 import           Data.Extensible.GetOpt
 import           Data.Maybe             (listToMaybe)
