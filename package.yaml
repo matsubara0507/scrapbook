@@ -15,33 +15,32 @@ ghc-options:
 - -Wall
 
 dependencies:
+- aeson
+- aeson-pretty
 - base >= 4.7 && < 5
+- containers
+- data-default
+- data-default-instances-text
+- exceptions
 - extensible
 - extensible-instances
+- feed
 - filepath
 - lens
+- monad-logger
+- mtl
+- req
+- shelly
 - text
+- text-conversions
+- time
+- unordered-containers
+- xml-conduit
+- xml-types
 - yaml
 
 library:
   source-dirs: src
-  dependencies:
-  - aeson
-  - aeson-pretty
-  - containers
-  - data-default
-  - data-default-instances-text
-  - exceptions
-  - feed
-  - monad-logger
-  - mtl
-  - req
-  - shelly
-  - time
-  - text-conversions
-  - unordered-containers
-  - xml-conduit
-  - xml-types
   other-modules:
   - ScrapBook.Feed.Atom.Internal
   - ScrapBook.Fetch.Internal
@@ -64,11 +63,16 @@ executables:
 
 tests:
   scrapbook-test:
-    main:                Spec.hs
-    source-dirs:         test
+    main:                Driver.hs
+    source-dirs:
+    - test
+    - src
     ghc-options:
     - -threaded
     - -rtsopts
     - -with-rtsopts=-N
     dependencies:
     - scrapbook
+    - tasty
+    - tasty-discover
+    - tasty-hunit
