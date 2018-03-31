@@ -74,5 +74,4 @@ tests:
     dependencies:
     - scrapbook
     - tasty
-    - tasty-discover
     - tasty-hunit
