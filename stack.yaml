@@ -3,6 +3,6 @@ packages:
 - .
 extra-deps:
 - data-default-instances-text-0.0.1
-- drinkery-0.1
+- drinkery-0.3
 - git: https://github.com/matsubara0507/extensible-instances.git
   commit: a5b543cede63890c84d3f62f9c26349ae9f2e4fc

@@ -43,11 +43,11 @@ main = withGetOpt "[options] [input-file]" opts $ \r args ->
         <: nil
 
 runScrapBook :: Options -> IO ()
-runScrapBook opts = runSommelier' (readInputD opts) $&
-  traverseFrom_ drinkL (fmap liftIO $ writeOutput' opts <=< run' (opts ^. #write))
+runScrapBook opts = tapListT (readInputD opts) $&
+  traverseFrom_ consumeL (fmap liftIO $ writeOutput' opts <=< run' (opts ^. #write))
 
-drinkL :: (Monoid r, MonadDrunk (Tap r [a]) m) => m [a]
-drinkL = drink
+consumeL :: (Monoid r, MonadSink (Tap r [a]) m) => m [a]
+consumeL = consume
 
 readInput :: Options -> IO [Either ParseException Config]
 readInput opts = sequence $
@@ -58,8 +58,8 @@ readInput opts = sequence $
     decodeFileEither' path =
       fmap (updateFileName (opts ^. #write) path) <$> decodeFileEither path
 
-readInputD :: Options -> Sommelier () IO (Either ParseException Config)
-readInputD = taste <=< liftIO . readInput
+readInputD :: Options -> ListT () IO (Either ParseException Config)
+readInputD = sample <=< liftIO . readInput
 
 writeOutput :: Options -> Config -> Text -> IO ()
 writeOutput opts conf txt =
