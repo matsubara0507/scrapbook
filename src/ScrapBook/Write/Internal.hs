@@ -8,7 +8,6 @@ module ScrapBook.Write.Internal
 import           RIO
 
 import           Control.Monad.Error.Class (throwError)
-import           Data.Text                 (Text)
 import           ScrapBook.Collecter       (CollectError (..), Collecter)
 import           ScrapBook.Data.Config     (Config)
 import           ScrapBook.Data.Site       (Post)

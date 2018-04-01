@@ -16,12 +16,8 @@ import           Control.Monad.IO.Class    (MonadIO (..))
 import           Control.Monad.Logger      (logInfo)
 import           Data.Default              (def)
 import           Data.Extensible
-import           Data.Maybe                (fromMaybe)
-import           Data.Monoid               ((<>))
 import           Data.Proxy                (Proxy (..))
-import           Data.Text                 (Text)
 import           Data.Text.Conversions     (UTF8 (..), decodeConvertText)
-import           Data.Text.Encoding        (encodeUtf8)
 import           Network.HTTP.Req
 import           ScrapBook.Collecter
 import           ScrapBook.Data.Site       (Post, Site)

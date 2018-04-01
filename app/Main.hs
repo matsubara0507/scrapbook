@@ -11,14 +11,14 @@ module Main where
 
 import           Paths_scrapbook        (version)
 import           RIO
+import           RIO.Directory
+import           RIO.FilePath
+import qualified RIO.Text               as T
 
-import           Control.Monad          ((<=<))
 import           Control.Monad.IO.Class (liftIO)
 import           Data.Drinkery
 import           Data.Extensible
 import           Data.Extensible.GetOpt
-import           Data.Text              (Text, pack)
-import qualified Data.Text.Encoding     as T
 import qualified Data.Text.IO           as T
 import           Data.Version           (Version)
 import qualified Data.Version           as Version
@@ -27,15 +27,12 @@ import           Data.Yaml              (ParseException, decodeEither',
 import           Development.GitRev
 import           ScrapBook
 import           ScrapBook.Cmd
-import           System.Directory       (createDirectoryIfMissing)
-import           System.FilePath        (dropFileName)
-import           System.IO              (stderr)
 
 main :: IO ()
 main = withGetOpt "[options] [input-file]" opts $ \r args ->
   case toCmd (#input @= args <: r) of
     RunScrapBook opts' -> runScrapBook opts'
-    PrintVersion       -> T.putStrLn $ pack (showVersion version)
+    PrintVersion       -> T.putStrLn $ T.pack (showVersion version)
   where
     opts = #output  @= outputOpt
         <: #write   @= writeFormatOpt
@@ -82,7 +79,7 @@ showVersion v = unwords
   ]
 
 terr :: Show e => e -> IO ()
-terr err = T.hPutStrLn stderr (pack $ show err)
+terr err = T.hPutStrLn stderr (T.pack $ show err)
 
 writeFileWithDir :: FilePath -> Text -> IO ()
 writeFileWithDir path txt = do

@@ -17,7 +17,6 @@ import           Control.Monad.Error.Class (throwError)
 import           Data.Extensible
 import           Data.Functor.Identity
 import           Data.Proxy                (Proxy (..))
-import           Data.Text                 (Text)
 import           ScrapBook.Collecter
 import           ScrapBook.Data.Site
 import           ScrapBook.Feed            ()

@@ -21,23 +21,18 @@ dependencies:
 - aeson
 - aeson-pretty
 - base >= 4.7 && < 5
-- containers
 - data-default
 - data-default-instances-text
 - exceptions
 - extensible
 - extensible-instances
 - feed
-- filepath
-- lens
 - monad-logger
 - mtl
 - req
 - rio
 - shelly
-- text
 - text-conversions
-- time
 - unordered-containers
 - xml-conduit
 - xml-types
@@ -60,10 +55,10 @@ executables:
     - -rtsopts
     - -with-rtsopts=-N
     dependencies:
-    - directory
     - drinkery
     - gitrev
     - scrapbook
+    - text # rio is not support console I/O yet
 
 tests:
   scrapbook-test:

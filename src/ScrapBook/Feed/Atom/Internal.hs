@@ -10,8 +10,8 @@ module ScrapBook.Feed.Atom.Internal
     ) where
 
 import           RIO
+import qualified RIO.Text       as T
 
-import           Data.Text      (Text, pack)
 import           Data.XML.Types as XML
 import           Text.Atom.Feed
 
@@ -202,7 +202,7 @@ xmlInReplyTo irt = (atomThreadNode "in-reply-to" (replyToContent irt))
   }
 
 xmlInReplyTotal :: InReplyTotal -> XML.Element
-xmlInReplyTotal irt = (atomThreadLeaf "total" (pack $ show $ replyToTotal irt))
+xmlInReplyTotal irt = (atomThreadLeaf "total" (T.pack $ show $ replyToTotal irt))
   { elementAttributes = replyToTotalOther irt
   }
 

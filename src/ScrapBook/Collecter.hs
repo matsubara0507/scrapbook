@@ -9,7 +9,6 @@ import           RIO
 import           Data.Extensible
 import           Data.Extensible.Effect.Default (EitherDef, runEitherDef)
 import           Data.Extensible.Effect.Logger
-import           Data.Text                      (Text)
 import           Data.Yaml                      (ParseException)
 import           Network.HTTP.Req               (HttpException)
 

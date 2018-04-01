@@ -6,17 +6,12 @@
 
 module ScrapBook.Internal.Utils where
 
-import           RIO                    hiding (takeWhile)
+import           RIO
+import qualified RIO.Text               as T
+import           RIO.Time
 
-import           Control.Applicative    ((<|>))
 import           Control.Monad.IO.Class (MonadIO (..))
 import           Data.Extensible
-import           Data.Maybe             (fromMaybe)
-import           Data.Text              (Text, pack, stripPrefix, takeWhile,
-                                         unpack)
-import           Data.Time              (UTCTime, defaultTimeLocale, formatTime,
-                                         iso8601DateFormat, parseTimeM,
-                                         rfc822DateFormat)
 import qualified Shelly                 as S
 
 embedM :: (Functor f, x ∈ xs) => Comp f h x -> f (h :| xs)
@@ -33,13 +28,18 @@ sleep = S.shelly . S.sleep
 
 toHost :: Text -> Text
 toHost url = fromMaybe url
-    $ (mappend "https://" . takeWhile (/= '/')) <$> stripPrefix "https://" url
-  <|> (mappend "http://"  . takeWhile (/= '/')) <$> stripPrefix "http://"  url
+    $ (mappend "https://" . T.takeWhile (/= '/')) <$> T.stripPrefix "https://" url
+  <|> (mappend "http://"  . T.takeWhile (/= '/')) <$> T.stripPrefix "http://"  url
 
 formatTimeFromRFC822 :: Text -> Maybe Text
 formatTimeFromRFC822 time = formatTimeToRFC3339 <$>
-  parseTimeM True defaultTimeLocale rfc822DateFormat (unpack time)
+  parseTimeM True defaultTimeLocale rfc822DateFormat (T.unpack time)
 
 formatTimeToRFC3339 :: UTCTime -> Text
-formatTimeToRFC3339 = pack .
-  formatTime defaultTimeLocale (iso8601DateFormat $ Just "%H:%M:%S%EZ")
+formatTimeToRFC3339 =
+  T.pack . formatTime defaultTimeLocale (iso8601DateFormat $ Just "%H:%M:%S%EZ")
+
+(<&>) :: Functor f => f a -> (a -> b) -> f b
+as <&> f = f <$> as
+{-# INLINE (<&>) #-}
+infixl 1 <&>

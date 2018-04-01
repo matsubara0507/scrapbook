@@ -12,11 +12,10 @@ module ScrapBook.Feed.RSS
   ) where
 
 import           RIO
+import qualified RIO.Text                          as T
 
 import           Data.Extensible
 import           Data.Extensible.Instances.Default ()
-import           Data.Maybe                        (fromMaybe)
-import           Data.Text                         (Text, unpack)
 import           ScrapBook.Data.Site
 import           ScrapBook.Fetch.Internal          (Fetch (..), fetchHtml,
                                                     throwFetchError)
@@ -28,7 +27,7 @@ import qualified Text.RSS.Syntax                   as RSS
 
 instance Fetch ("rss" >: Text) where
   fetchFrom _ site feedUrl = do
-    resp <- unpack <$> fetchHtml feedUrl
+    resp <- T.unpack <$> fetchHtml feedUrl
     case parseFeedString resp of
       Just (RSSFeed feed) -> pure $ fromRSSFeed site feed
       _                   -> throwFetchError (Right "can't parse rss feed.")
