@@ -15,7 +15,6 @@ import           RIO.Directory
 import           RIO.FilePath
 import qualified RIO.Text               as T
 
-import           Control.Monad.IO.Class (liftIO)
 import           Data.Drinkery
 import           Data.Extensible
 import           Data.Extensible.GetOpt
@@ -66,8 +65,8 @@ writeOutput opts conf txt =
   where
     name = fileName conf $ opts ^. #write
 
-writeOutput' :: Options -> Either CollectError (Config, Text) -> IO ()
-writeOutput' opts = either terr $ uncurry (writeOutput opts)
+writeOutput' :: Options -> (Config, Text) -> IO ()
+writeOutput' opts = handle terr . uncurry (writeOutput opts)
 
 showVersion :: Version -> String
 showVersion v = unwords
@@ -78,8 +77,8 @@ showVersion v = unwords
   , "(" ++ $(gitCommitCount) ++ " commits)"
   ]
 
-terr :: Show e => e -> IO ()
-terr err = T.hPutStrLn stderr (T.pack $ show err)
+terr :: CollectError -> IO ()
+terr err = T.hPutStrLn stderr (tshow err)
 
 writeFileWithDir :: FilePath -> Text -> IO ()
 writeFileWithDir path txt = do

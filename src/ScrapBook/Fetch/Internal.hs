@@ -1,7 +1,6 @@
 {-# LANGUAGE DataKinds         #-}
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE PolyKinds         #-}
-{-# LANGUAGE TemplateHaskell   #-}
 
 module ScrapBook.Fetch.Internal
   ( Fetch (..)
@@ -9,19 +8,15 @@ module ScrapBook.Fetch.Internal
   , throwFetchError
   ) where
 
-import           RIO                       hiding (logInfo)
+import           RIO
 
-import           Control.Monad.Error.Class (throwError)
-import           Control.Monad.IO.Class    (MonadIO (..))
-import           Control.Monad.Logger      (logInfo)
-import           Data.Default              (def)
+import           Data.Default          (def)
 import           Data.Extensible
-import           Data.Proxy                (Proxy (..))
-import           Data.Text.Conversions     (UTF8 (..), decodeConvertText)
+import           Data.Proxy            (Proxy (..))
+import           Data.Text.Conversions (UTF8 (..), decodeConvertText)
 import           Network.HTTP.Req
 import           ScrapBook.Collecter
-import           ScrapBook.Data.Site       (Post, Site)
-import           ScrapBook.Internal.Utils  (sleep)
+import           ScrapBook.Data.Site   (Post, Site)
 
 class Fetch kv where
   fetchFrom :: proxy kv -> Site -> AssocValue kv -> Collecter [Post]
@@ -38,19 +33,20 @@ get' :: HttpResponse r => Text -> Proxy r -> Collecter (Either HttpException r)
 get' url proxy =
   case parseUrlHttp (encodeUtf8 url) of
     Just (url', opts) ->
-      runReq' def (req GET url' NoReqBody proxy opts) <* sleep' 1
+      runReq' def (req GET url' NoReqBody proxy opts) <* sleep' 1000
     Nothing ->
       case parseUrlHttps (encodeUtf8 url) of
         Just (url', opts) ->
-          runReq' def (req GET url' NoReqBody proxy opts) <* sleep' 1
+          runReq' def (req GET url' NoReqBody proxy opts) <* sleep' 1000
         Nothing ->
           throwFetchError (Right $ "cannot parse url: " <> url)
   where
-    sleep' n = $(logInfo) ("fethed: " `mappend` url) *> sleep n
+    sleep' :: Int -> Collecter ()
+    sleep' n = logInfo (display $ "fethed: " <> url) *> threadDelay n
 
 
 runReq' :: (MonadIO m) => HttpConfig -> Req a -> m (Either HttpException a)
 runReq' conf = liftIO . try . runReq conf
 
 throwFetchError :: Either HttpException Text -> Collecter a
-throwFetchError = throwError . FetchException
+throwFetchError = throwM . FetchException
