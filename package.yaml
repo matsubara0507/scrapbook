@@ -30,7 +30,6 @@ dependencies:
 - extensible
 - extensible-instances
 - feed
-- mtl
 - req
 - rio
 - xml-conduit
