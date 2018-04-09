@@ -11,14 +11,13 @@ module Main where
 
 import           Paths_scrapbook        (version)
 import           RIO
+import qualified RIO.ByteString         as B
 import           RIO.Directory
 import           RIO.FilePath
-import qualified RIO.Text               as T
 
 import           Data.Drinkery
 import           Data.Extensible
 import           Data.Extensible.GetOpt
-import qualified Data.Text.IO           as T
 import           Data.Version           (Version)
 import qualified Data.Version           as Version
 import           Data.Yaml              (ParseException, decodeEither',
@@ -31,7 +30,7 @@ main :: IO ()
 main = withGetOpt "[options] [input-file]" opts $ \r args ->
   case toCmd (#input @= args <: r) of
     RunScrapBook opts' -> runScrapBook opts'
-    PrintVersion       -> T.putStrLn $ T.pack (showVersion version)
+    PrintVersion       -> B.putStr $ fromString (showVersion version)
   where
     opts = #output  @= outputOpt
         <: #write   @= writeFormatOpt
@@ -48,7 +47,7 @@ consumeL = consume
 readInput :: Options -> IO [Either ParseException Config]
 readInput opts = sequence $
     case opts ^. #input of
-      []    -> pure $ (decodeEither' . T.encodeUtf8) <$> T.getContents
+      []    -> pure $ decodeEither' <$> B.getContents
       paths -> decodeFileEither' <$> paths
   where
     decodeFileEither' path =
@@ -61,7 +60,7 @@ writeOutput :: Options -> Config -> Text -> IO ()
 writeOutput opts conf txt =
   case opts ^. #output of
     Just dir -> writeFileWithDir (mconcat [dir, "/", name]) txt
-    Nothing  -> T.putStrLn txt
+    Nothing  -> hPutBuilder stdin $ encodeUtf8Builder txt
   where
     name = fileName conf $ opts ^. #write
 
@@ -78,9 +77,9 @@ showVersion v = unwords
   ]
 
 terr :: CollectError -> IO ()
-terr err = T.hPutStrLn stderr (tshow err)
+terr err = hPutBuilder stderr $ encodeUtf8Builder (tshow err)
 
 writeFileWithDir :: FilePath -> Text -> IO ()
 writeFileWithDir path txt = do
   createDirectoryIfMissing True $ dropFileName path
-  T.writeFile path txt
+  writeFileUtf8 path txt

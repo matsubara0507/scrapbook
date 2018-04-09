@@ -60,7 +60,6 @@ executables:
     - drinkery
     - gitrev
     - scrapbook
-    - text # rio is not support console I/O yet
 
 tests:
   scrapbook-test:
