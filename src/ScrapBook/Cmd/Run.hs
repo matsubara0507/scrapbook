@@ -21,4 +21,4 @@ run' :: (MonadUnliftIO m, MonadThrow m) =>
   Format -> Either ParseException Config -> m (Config, Text)
 run' fmt = \case
   Left err   -> throwM $ YamlParseException err
-  Right conf -> ((,) conf) <$> run fmt conf
+  Right conf -> (,) conf <$> run fmt conf
