@@ -33,9 +33,6 @@ dependencies:
 - mtl
 - req
 - rio
-- shelly
-- text-conversions
-- unordered-containers
 - xml-conduit
 - xml-types
 - yaml

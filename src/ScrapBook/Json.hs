@@ -23,16 +23,13 @@ import           Data.Aeson.Encode.Pretty (encodePretty)
 import           Data.Extensible
 import           Data.Functor.Identity
 import           Data.Proxy               (Proxy (..))
-import           Data.Text.Conversions
 import           GHC.TypeLits             (KnownSymbol, symbolVal)
 import           ScrapBook.Data.Site      (Summary (..))
 import           ScrapBook.Write.Internal (Write (..), throwWriteError)
 
 instance Write ("json" >: ()) where
   writeTo _ _conf =
-    maybe err pure . decodeConvertText . UTF8 . encodePretty
-    where
-      err = throwWriteError "can't decode Text from ByteString."
+    either (throwWriteError . tshow) pure . decodeUtf8' . toStrictBytes . encodePretty
   fileName' _ conf = maybe "posts.json" T.unpack $ conf ^. #json
   updateFileName' _ path conf =
     conf & #json `over` maybe (pure $ T.pack name) pure

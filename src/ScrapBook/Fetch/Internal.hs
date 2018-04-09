@@ -10,13 +10,12 @@ module ScrapBook.Fetch.Internal
 
 import           RIO
 
-import           Data.Default          (def)
+import           Data.Default        (def)
 import           Data.Extensible
-import           Data.Proxy            (Proxy (..))
-import           Data.Text.Conversions (UTF8 (..), decodeConvertText)
+import           Data.Proxy          (Proxy (..))
 import           Network.HTTP.Req
 import           ScrapBook.Collecter
-import           ScrapBook.Data.Site   (Post, Site)
+import           ScrapBook.Data.Site (Post, Site)
 
 class Fetch kv where
   fetchFrom :: proxy kv -> Site -> AssocValue kv -> Collecter [Post]
@@ -27,7 +26,7 @@ fetchHtml url = do
   case result of
     Left err   -> throwFetchError (Left err)
     Right resp ->
-      pure . fromMaybe "" $ decodeConvertText (UTF8 $ responseBody resp)
+      either (throwFetchError . Right . tshow) pure $ decodeUtf8' (responseBody resp)
 
 get' :: HttpResponse r => Text -> Proxy r -> Collecter (Either HttpException r)
 get' url proxy =
