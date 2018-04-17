@@ -11,10 +11,10 @@ module ScrapBook.Write
     , Write (..)
     ) where
 
+import           RIO
 
 import           Data.Extensible
 import           Data.Proxy               (Proxy (..))
-import           Data.Text                (Text)
 import           ScrapBook.Collecter      (Collecter)
 import           ScrapBook.Data.Config    (Config)
 import           ScrapBook.Data.Format    (Format)

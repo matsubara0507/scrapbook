@@ -3,6 +3,8 @@
 
 module Test.ScrapBook.Data.Site where
 
+import           RIO
+
 import           Data.Extensible
 import           ScrapBook.Data.Site
 import           Test.Tasty

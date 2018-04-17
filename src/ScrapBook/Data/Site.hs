@@ -15,13 +15,13 @@ module ScrapBook.Data.Site
   , summaryToText
   ) where
 
-import           Control.Lens                      ((&), (.~), (^.))
+import           RIO
+import qualified RIO.Text                          as T
+
 import           Data.Default                      (def)
 import           Data.Default.Instances.Text       ()
 import           Data.Extensible
 import           Data.Extensible.Instances.Default ()
-import           Data.Map                          (Map)
-import           Data.Text                         (Text, uncons)
 import           ScrapBook.Internal.Utils          (toHost)
 import           Text.Atom.Feed                    (Date)
 
@@ -45,7 +45,7 @@ type AtomConfig = Record
    ]
 
 toAtomConfig :: Url -> AtomConfig
-toAtomConfig url = def & #url .~ url
+toAtomConfig url = def & #url `set` url
 
 type Post = Record
   '[ "title"   >: Text
@@ -70,6 +70,6 @@ summaryToText (HtmlSummary txt) = txt
 -- if url have prefix `/`, append base url
 toAbsoluteUrl :: Site -> Url -> Url
 toAbsoluteUrl site url =
-  case uncons url of
+  case T.uncons url of
     Just ('/', _) -> toHost (site ^. #url) `mappend` url
     _             -> url

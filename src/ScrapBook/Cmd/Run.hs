@@ -8,16 +8,17 @@ module ScrapBook.Cmd.Run
     , run'
     ) where
 
-import           Control.Lens ((^.))
-import           Data.Text    (Text)
-import           Data.Yaml    (ParseException)
+import           RIO
+
+import           Data.Yaml (ParseException)
 import           ScrapBook
 
-run :: Format -> Config -> IO (Either CollectError Text)
+run :: MonadUnliftIO m => Format -> Config -> m Text
 run fmt conf = collect $
   (write conf fmt . concat) =<< mapM (fetch . toSite) (conf ^. #sites)
 
-run' :: Format -> Either ParseException Config -> IO (Either CollectError (Config, Text))
+run' :: (MonadUnliftIO m, MonadThrow m) =>
+  Format -> Either ParseException Config -> m (Config, Text)
 run' fmt = \case
-  Left err -> pure $ Left (YamlParseException err)
-  Right conf -> fmap ((,) conf) <$> run fmt conf
+  Left err   -> throwM $ YamlParseException err
+  Right conf -> (,) conf <$> run fmt conf

@@ -14,21 +14,20 @@ module ScrapBook.Feed.Atom
   , toDocument
   ) where
 
-import           Control.Lens                      (view, (<&>), (^.))
+import qualified Data.List                         as L
+import           RIO
+import qualified RIO.Map                           as M
+import qualified RIO.Text                          as T
+
 import           Data.Extensible
 import           Data.Extensible.Instances.Default ()
-import           Data.List                         (sortOn)
-import qualified Data.Map                          as Map
-import           Data.Maybe                        (listToMaybe)
-import           Data.Set                          (Set)
-import           Data.String                       (fromString)
-import           Data.Text                         (Text, pack, unpack)
 import qualified Data.XML.Types                    as XML (Content (..))
 import           ScrapBook.Data.Config
 import           ScrapBook.Data.Site
 import qualified ScrapBook.Feed.Atom.Internal      as My
 import           ScrapBook.Fetch.Internal          (Fetch (..), fetchHtml,
                                                     throwFetchError)
+import           ScrapBook.Internal.Utils          ((<&>))
 import qualified Text.Atom.Feed                    as Atom
 import           Text.Feed.Import                  (parseFeedString)
 import           Text.Feed.Types                   (Feed (..))
@@ -36,7 +35,7 @@ import qualified Text.XML                          as XML
 
 instance Fetch ("atom" >: AtomConfig) where
   fetchFrom _ site conf = do
-    resp <- unpack <$> fetchHtml (conf ^. #url)
+    resp <- T.unpack <$> fetchHtml (conf ^. #url)
     case parseFeedString resp of
       Just (AtomFeed feed) -> pure $ fromAtomFeed site conf feed
       _                    -> throwFetchError (Right "can't parse atom feed.")
@@ -47,14 +46,14 @@ fromAtomFeed site conf feed = fromEntry site conf <$> Atom.feedEntries feed
 toAtomFeed :: FeedConfig -> [Post] -> Atom.Feed
 toAtomFeed conf posts =
   (Atom.nullFeed
-    (mconcat [conf ^. #baseUrl, "/", pack $ feedName conf])
+    (mconcat [conf ^. #baseUrl, "/", T.pack $ feedName conf])
     (Atom.TextString $ conf ^. #title)
     (maybe "" (view #date) $ listToMaybe posts'))
     { Atom.feedEntries = map toEntry posts'
     , Atom.feedLinks = [Atom.nullLink $ conf ^. #baseUrl]
     }
   where
-    posts' = reverse $ sortOn (view #date) posts
+    posts' = reverse $ L.sortOn (view #date) posts
 
 toEntry :: Post -> Atom.Entry
 toEntry post =
@@ -76,7 +75,7 @@ fromEntry site conf entry
    <: nil
 
 txtToText :: Atom.TextContent -> Text
-txtToText = pack . Atom.txtToString
+txtToText = T.pack . Atom.txtToString
 
 toDocument :: Atom.Feed -> Either (Set Text) XML.Document
 toDocument feed = XML.fromXMLElement (My.xmlFeed feed)
@@ -89,10 +88,10 @@ toUrl site conf entry =
     (listToMaybe . filter (p . Atom.linkAttrs) $ Atom.entryLinks entry)
   where
     p attrs = all (`elem` attrs) $
-      toAttr <$> (maybe [] Map.toList $ conf ^. #linkAttrs)
+      toAttr <$> maybe [] M.toList (conf ^. #linkAttrs)
 
 toAttr :: (Text, Text) -> Atom.Attr
-toAttr (k, v) = (fromString $ unpack k, [XML.ContentText v])
+toAttr (k, v) = (fromString $ T.unpack k, [XML.ContentText v])
 
 toSummary :: Atom.TextContent -> Maybe Summary
 toSummary (Atom.TextString txt) = Just $ TextSummary txt

@@ -8,10 +8,10 @@ module ScrapBook.Data.Format
   , optFormat
   ) where
 
-import           Control.Applicative      ((<|>))
+import           RIO
+
 import           Data.Default
 import           Data.Extensible
-import           Data.Maybe               (fromMaybe, listToMaybe)
 import           Data.Proxy               (Proxy (..))
 import           GHC.TypeLits
 import           ScrapBook.Internal.Utils (valid)

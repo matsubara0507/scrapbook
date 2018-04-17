@@ -13,28 +13,25 @@ description:         Please see the README on Github at <https://github.com/mats
 
 ghc-options:
 - -Wall
+- -Wcompat
+- -Wincomplete-record-updates
+- -Wincomplete-uni-patterns
+- -Wredundant-constraints
+
+default-extensions:
+- NoImplicitPrelude
 
 dependencies:
 - aeson
 - aeson-pretty
 - base >= 4.7 && < 5
-- containers
 - data-default
 - data-default-instances-text
-- exceptions
 - extensible
 - extensible-instances
 - feed
-- filepath
-- lens
-- monad-logger
-- mtl
 - req
-- shelly
-- text
-- text-conversions
-- time
-- unordered-containers
+- rio
 - xml-conduit
 - xml-types
 - yaml
@@ -56,7 +53,6 @@ executables:
     - -rtsopts
     - -with-rtsopts=-N
     dependencies:
-    - directory
     - drinkery
     - gitrev
     - scrapbook
@@ -74,5 +70,4 @@ tests:
     dependencies:
     - scrapbook
     - tasty
-    - tasty-discover
     - tasty-hunit

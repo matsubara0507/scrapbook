@@ -4,11 +4,10 @@
 
 module ScrapBook.Data.Config where
 
-import           Control.Applicative      ((<|>))
-import           Control.Lens             ((^.))
+import           RIO
+import qualified RIO.Text                 as T
+
 import           Data.Extensible
-import           Data.Maybe               (fromMaybe)
-import           Data.Text                (Text, unpack)
 import           Data.Yaml
 import           ScrapBook.Data.Site
 import           ScrapBook.Internal.Utils (embedM)
@@ -52,4 +51,4 @@ toSiteId conf = fromMaybe (embed $ #url @= conf ^. #url)
   <|> embedM (#feed <@=> conf ^. #feed)
 
 feedName :: FeedConfig -> FilePath
-feedName conf = maybe "atom.xml" unpack (conf ^. #name)
+feedName conf = maybe "atom.xml" T.unpack (conf ^. #name)
