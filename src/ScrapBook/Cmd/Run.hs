@@ -15,7 +15,7 @@ import           ScrapBook
 
 run :: MonadUnliftIO m => Format -> Config -> m Text
 run fmt conf = do
-  results <- flip mapM (conf ^. #sites) $ \site ->
+  results <- forM (conf ^. #sites) $ \site ->
     collect (fetch $ toSite site) `catch` handler
   collect $ write conf fmt (concat results)
   where
