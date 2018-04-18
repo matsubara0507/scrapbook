@@ -14,8 +14,13 @@ import           Data.Yaml (ParseException)
 import           ScrapBook
 
 run :: MonadUnliftIO m => Format -> Config -> m Text
-run fmt conf = collect $
-  (write conf fmt . concat) =<< mapM (fetch . toSite) (conf ^. #sites)
+run fmt conf = do
+  results <- forM (conf ^. #sites) $ \site ->
+    collect (fetch $ toSite site) `catch` handler
+  collect $ write conf fmt (concat results)
+  where
+    handler :: MonadUnliftIO m => CollectError -> m [Post]
+    handler e = collect (logError $ displayShow e) >> pure []
 
 run' :: (MonadUnliftIO m, MonadThrow m) =>
   Format -> Either ParseException Config -> m (Config, Text)
