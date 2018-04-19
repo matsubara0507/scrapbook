@@ -42,6 +42,7 @@ library:
   - ScrapBook.Feed.Atom.Internal
   - ScrapBook.Fetch.Internal
   - ScrapBook.Internal.Utils
+  - ScrapBook.Internal.Instances
   - ScrapBook.Write.Internal
 
 executables:
