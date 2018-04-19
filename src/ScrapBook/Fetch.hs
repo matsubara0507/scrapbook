@@ -1,8 +1,10 @@
 {-# LANGUAGE DataKinds         #-}
+{-# LANGUAGE FlexibleContexts  #-}
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE OverloadedLabels  #-}
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE PolyKinds         #-}
+{-# LANGUAGE TypeFamilies      #-}
 {-# LANGUAGE TypeOperators     #-}
 {-# OPTIONS_GHC -fno-warn-orphans #-}
 
@@ -21,7 +23,7 @@ import           ScrapBook.Data.Site
 import           ScrapBook.Feed           ()
 import           ScrapBook.Fetch.Internal (Fetch (..))
 
-fetch :: Site -> Collecter [Post]
+fetch :: IsSiteFields xs => Record xs -> Collecter [Post (Record xs)]
 fetch site = flip matchField (site ^. #id) $
   htabulateFor (Proxy :: Proxy Fetch) $
     \m -> Field (Match $ fetchFrom m site . runIdentity)

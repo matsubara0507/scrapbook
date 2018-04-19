@@ -1,8 +1,10 @@
 {-# LANGUAGE DataKinds         #-}
+{-# LANGUAGE FlexibleContexts  #-}
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE OverloadedLabels  #-}
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE PolyKinds         #-}
+{-# LANGUAGE TypeFamilies      #-}
 {-# LANGUAGE TypeOperators     #-}
 {-# OPTIONS_GHC -fno-warn-orphans #-}
 
@@ -53,7 +55,8 @@ instance Write ("feed" >: ()) where
       name = replaceExtension (takeFileName path) "xml"
 
 
-writeFeed :: FilePath -> FeedConfig -> [Post] -> Collecter ()
+writeFeed :: IsSiteFields xs =>
+  FilePath -> FeedConfig -> [Post (Record xs)] -> Collecter ()
 writeFeed dir conf posts =
   case toDocument (toAtomFeed conf posts) of
     Left err   -> throwWriteError $ mconcat (toList err)

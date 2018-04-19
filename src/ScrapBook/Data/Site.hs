@@ -43,7 +43,7 @@ type Site = Record
    ]
 
 type IsSiteFields xs =
-  ( Forall (KeyValue KnownSymbol ToJSON) xs
+  ( Forall (KeyValue KnownSymbol (Instance1 ToJSON Identity)) xs
   , Associate "title" Text xs
   , Associate "author" Text xs
   , Associate "url" Url xs
@@ -65,12 +65,12 @@ type AtomConfig = Record
 toAtomConfig :: Url -> AtomConfig
 toAtomConfig url = def & #url `set` url
 
-type Post = Record
+type Post s = Record
   '[ "title"   >: Text
    , "url"     >: Url
    , "date"    >: Date
    , "summary" >: Maybe Summary
-   , "site"    >: Site
+   , "site"    >: s
    ]
 
 type Url = Text

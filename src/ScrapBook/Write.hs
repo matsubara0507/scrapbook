@@ -1,8 +1,9 @@
 {-# LANGUAGE DataKinds         #-}
+{-# LANGUAGE FlexibleContexts  #-}
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE PolyKinds         #-}
+{-# LANGUAGE TypeFamilies      #-}
 {-# LANGUAGE TypeOperators     #-}
-{-# OPTIONS_GHC -fno-warn-orphans #-}
 
 module ScrapBook.Write
     ( write
@@ -18,12 +19,13 @@ import           Data.Proxy               (Proxy (..))
 import           ScrapBook.Collecter      (Collecter)
 import           ScrapBook.Data.Config    (Config)
 import           ScrapBook.Data.Format    (Format)
-import           ScrapBook.Data.Site      (Post)
+import           ScrapBook.Data.Site      (IsSiteFields, Post)
 import           ScrapBook.Feed           ()
 import           ScrapBook.Json           ()
 import           ScrapBook.Write.Internal (Write (..))
 
-write :: Config -> Format -> [Post] -> Collecter Text
+write :: IsSiteFields xs =>
+  Config -> Format -> [Post (Record xs)] -> Collecter Text
 write conf fmt posts = flip matchField fmt $
   htabulateFor (Proxy :: Proxy Write) $
     \m -> Field (Match . pure $ writeTo m conf posts)

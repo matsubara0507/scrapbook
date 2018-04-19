@@ -19,7 +19,7 @@ run fmt conf = do
     collect (fetch $ toSite site) `catch` handler
   collect $ write conf fmt (concat results)
   where
-    handler :: MonadUnliftIO m => CollectError -> m [Post]
+    handler :: MonadUnliftIO m => CollectError -> m [Post Site]
     handler e = collect (logError $ displayShow e) >> pure []
 
 run' :: (MonadUnliftIO m, MonadThrow m) =>
