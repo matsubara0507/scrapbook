@@ -1,6 +1,9 @@
-{-# LANGUAGE DataKinds        #-}
-{-# LANGUAGE OverloadedLabels #-}
-{-# LANGUAGE TypeOperators    #-}
+{-# LANGUAGE DataKinds             #-}
+{-# LANGUAGE FlexibleContexts      #-}
+{-# LANGUAGE MultiParamTypeClasses #-}
+{-# LANGUAGE OverloadedLabels      #-}
+{-# LANGUAGE TypeFamilies          #-}
+{-# LANGUAGE TypeOperators         #-}
 
 module ScrapBook.Data.Site
   ( Site
@@ -68,7 +71,7 @@ summaryToText (HtmlSummary txt) = txt
 
 -- |
 -- if url have prefix `/`, append base url
-toAbsoluteUrl :: Site -> Url -> Url
+toAbsoluteUrl :: (Associate "url" Url xs) => Record xs -> Url -> Url
 toAbsoluteUrl site url =
   case T.uncons url of
     Just ('/', _) -> toHost (site ^. #url) `mappend` url

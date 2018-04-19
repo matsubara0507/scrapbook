@@ -1,9 +1,12 @@
-{-# LANGUAGE DataKinds         #-}
-{-# LANGUAGE FlexibleInstances #-}
-{-# LANGUAGE OverloadedLabels  #-}
-{-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE PolyKinds         #-}
-{-# LANGUAGE TypeOperators     #-}
+{-# LANGUAGE DataKinds             #-}
+{-# LANGUAGE FlexibleContexts      #-}
+{-# LANGUAGE FlexibleInstances     #-}
+{-# LANGUAGE MultiParamTypeClasses #-}
+{-# LANGUAGE OverloadedLabels      #-}
+{-# LANGUAGE OverloadedStrings     #-}
+{-# LANGUAGE PolyKinds             #-}
+{-# LANGUAGE TypeFamilies          #-}
+{-# LANGUAGE TypeOperators         #-}
 {-# OPTIONS_GHC -fno-warn-orphans #-}
 
 module ScrapBook.Feed.RSS
@@ -44,6 +47,6 @@ fromEntry site entry
    <: #site    @= site
    <: nil
 
-toUrl :: Site -> RSSItem -> Text
+toUrl :: (Associate "url" Url xs) => Record xs -> RSSItem -> Text
 toUrl site entry =
   maybe "" (toAbsoluteUrl site) (RSS.rssItemLink entry)

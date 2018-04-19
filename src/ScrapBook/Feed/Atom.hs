@@ -1,9 +1,12 @@
-{-# LANGUAGE DataKinds         #-}
-{-# LANGUAGE FlexibleInstances #-}
-{-# LANGUAGE OverloadedLabels  #-}
-{-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE PolyKinds         #-}
-{-# LANGUAGE TypeOperators     #-}
+{-# LANGUAGE DataKinds             #-}
+{-# LANGUAGE FlexibleContexts      #-}
+{-# LANGUAGE FlexibleInstances     #-}
+{-# LANGUAGE MultiParamTypeClasses #-}
+{-# LANGUAGE OverloadedLabels      #-}
+{-# LANGUAGE OverloadedStrings     #-}
+{-# LANGUAGE PolyKinds             #-}
+{-# LANGUAGE TypeFamilies          #-}
+{-# LANGUAGE TypeOperators         #-}
 {-# OPTIONS_GHC -fno-warn-orphans #-}
 
 module ScrapBook.Feed.Atom
@@ -81,7 +84,7 @@ toDocument :: Atom.Feed -> Either (Set Text) XML.Document
 toDocument feed = XML.fromXMLElement (My.xmlFeed feed)
   <&> \elm -> XML.Document (XML.Prologue [] Nothing []) elm []
 
-toUrl :: Site -> AtomConfig -> Atom.Entry -> Text
+toUrl :: (Associate "url" Url xs) => Record xs -> AtomConfig -> Atom.Entry -> Text
 toUrl site conf entry =
   maybe ""
     (toAbsoluteUrl site . Atom.linkHref )
