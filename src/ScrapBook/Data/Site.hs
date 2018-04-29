@@ -9,6 +9,7 @@
 
 module ScrapBook.Data.Site
   ( Site
+  , SiteFields
   , IsSiteFields
   , SiteId
   , AtomConfig
@@ -35,7 +36,9 @@ import           ScrapBook.Internal.Instances      (kvToJSON)
 import           ScrapBook.Internal.Utils          (toHost)
 import           Text.Atom.Feed                    (Date)
 
-type Site = Record
+type Site = Record SiteFields
+
+type SiteFields =
   '[ "title"  >: Text
    , "author" >: Text
    , "url"    >: Url
