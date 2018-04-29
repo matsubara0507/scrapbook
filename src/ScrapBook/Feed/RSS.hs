@@ -1,8 +1,10 @@
 {-# LANGUAGE DataKinds         #-}
+{-# LANGUAGE FlexibleContexts  #-}
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE OverloadedLabels  #-}
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE PolyKinds         #-}
+{-# LANGUAGE TypeFamilies      #-}
 {-# LANGUAGE TypeOperators     #-}
 {-# OPTIONS_GHC -fno-warn-orphans #-}
 
@@ -32,10 +34,10 @@ instance Fetch ("rss" >: Text) where
       Just (RSSFeed feed) -> pure $ fromRSSFeed site feed
       _                   -> throwFetchError (Right "can't parse rss feed.")
 
-fromRSSFeed :: Site -> RSS -> [Post]
+fromRSSFeed :: IsSiteFields xs => Record xs -> RSS -> [Post (Record xs)]
 fromRSSFeed site feed = fromEntry site <$> RSS.rssItems (RSS.rssChannel feed)
 
-fromEntry :: Site -> RSSItem -> Post
+fromEntry :: IsSiteFields xs => Record xs -> RSSItem -> Post (Record xs)
 fromEntry site entry
     = #title   @= fromMaybe "" (RSS.rssItemTitle entry)
    <: #url     @= toUrl site entry
@@ -44,6 +46,6 @@ fromEntry site entry
    <: #site    @= site
    <: nil
 
-toUrl :: Site -> RSSItem -> Text
+toUrl :: IsSiteFields xs => Record xs -> RSSItem -> Text
 toUrl site entry =
   maybe "" (toAbsoluteUrl site) (RSS.rssItemLink entry)

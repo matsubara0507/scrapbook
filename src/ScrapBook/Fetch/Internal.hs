@@ -1,6 +1,9 @@
-{-# LANGUAGE DataKinds         #-}
-{-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE PolyKinds         #-}
+{-# LANGUAGE DataKinds             #-}
+{-# LANGUAGE FlexibleContexts      #-}
+{-# LANGUAGE MultiParamTypeClasses #-}
+{-# LANGUAGE OverloadedStrings     #-}
+{-# LANGUAGE PolyKinds             #-}
+{-# LANGUAGE TypeFamilies          #-}
 
 module ScrapBook.Fetch.Internal
   ( Fetch (..)
@@ -15,10 +18,11 @@ import           Data.Extensible
 import           Data.Proxy          (Proxy (..))
 import           Network.HTTP.Req
 import           ScrapBook.Collecter
-import           ScrapBook.Data.Site (Post, Site)
+import           ScrapBook.Data.Site (IsSiteFields, Post)
 
 class Fetch kv where
-  fetchFrom :: proxy kv -> Site -> AssocValue kv -> Collecter [Post]
+  fetchFrom :: IsSiteFields xs =>
+    proxy kv -> Record xs -> AssocValue kv -> Collecter [Post (Record xs)]
 
 fetchHtml :: Text -> Collecter Text
 fetchHtml url = do

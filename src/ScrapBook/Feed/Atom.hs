@@ -1,8 +1,10 @@
 {-# LANGUAGE DataKinds         #-}
+{-# LANGUAGE FlexibleContexts  #-}
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE OverloadedLabels  #-}
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE PolyKinds         #-}
+{-# LANGUAGE TypeFamilies      #-}
 {-# LANGUAGE TypeOperators     #-}
 {-# OPTIONS_GHC -fno-warn-orphans #-}
 
@@ -40,10 +42,11 @@ instance Fetch ("atom" >: AtomConfig) where
       Just (AtomFeed feed) -> pure $ fromAtomFeed site conf feed
       _                    -> throwFetchError (Right "can't parse atom feed.")
 
-fromAtomFeed :: Site -> AtomConfig -> Atom.Feed -> [Post]
+fromAtomFeed ::
+  IsSiteFields xs => Record xs -> AtomConfig -> Atom.Feed -> [Post (Record xs)]
 fromAtomFeed site conf feed = fromEntry site conf <$> Atom.feedEntries feed
 
-toAtomFeed :: FeedConfig -> [Post] -> Atom.Feed
+toAtomFeed :: IsSiteFields xs => FeedConfig -> [Post (Record xs)] -> Atom.Feed
 toAtomFeed conf posts =
   (Atom.nullFeed
     (mconcat [conf ^. #baseUrl, "/", T.pack $ feedName conf])
@@ -55,7 +58,7 @@ toAtomFeed conf posts =
   where
     posts' = reverse $ L.sortOn (view #date) posts
 
-toEntry :: Post -> Atom.Entry
+toEntry :: IsSiteFields xs => Post (Record xs) -> Atom.Entry
 toEntry post =
   (Atom.nullEntry
     (post ^. #url) (Atom.TextString $ post ^. #title) (post ^. #date))
@@ -65,7 +68,8 @@ toEntry post =
     , Atom.entrySummary = fmap fromSummary (post ^. #summary)
     }
 
-fromEntry :: Site -> AtomConfig -> Atom.Entry -> Post
+fromEntry ::
+  IsSiteFields xs => Record xs -> AtomConfig -> Atom.Entry -> Post (Record xs)
 fromEntry site conf entry
     = #title   @= txtToText (Atom.entryTitle entry)
    <: #url     @= toUrl site conf entry
@@ -81,7 +85,7 @@ toDocument :: Atom.Feed -> Either (Set Text) XML.Document
 toDocument feed = XML.fromXMLElement (My.xmlFeed feed)
   <&> \elm -> XML.Document (XML.Prologue [] Nothing []) elm []
 
-toUrl :: Site -> AtomConfig -> Atom.Entry -> Text
+toUrl :: IsSiteFields xs => Record xs -> AtomConfig -> Atom.Entry -> Text
 toUrl site conf entry =
   maybe ""
     (toAbsoluteUrl site . Atom.linkHref )
