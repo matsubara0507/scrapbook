@@ -1,5 +1,8 @@
+{-# LANGUAGE ConstraintKinds  #-}
 {-# LANGUAGE DataKinds        #-}
+{-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE OverloadedLabels #-}
+{-# LANGUAGE TypeFamilies     #-}
 {-# LANGUAGE TypeOperators    #-}
 
 module ScrapBook.Data.Config where
@@ -17,6 +20,11 @@ type Config = Record
    , "json"  >: Maybe Text        -- ^ output file name
    , "sites" >: [SiteConfig]
    ]
+
+type HasWriteConfigFields xs =
+  ( Associate "feed" (Maybe FeedConfig) xs
+  , Associate "json" (Maybe Text) xs
+  )
 
 type FeedConfig = Record
   '[ "title"   >: Text

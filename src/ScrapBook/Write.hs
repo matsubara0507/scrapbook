@@ -17,24 +17,25 @@ import           RIO
 import           Data.Extensible
 import           Data.Proxy               (Proxy (..))
 import           ScrapBook.Collecter      (Collecter)
-import           ScrapBook.Data.Config    (Config)
+import           ScrapBook.Data.Config    (HasWriteConfigFields)
 import           ScrapBook.Data.Format    (Format)
 import           ScrapBook.Data.Site      (IsSiteFields, Post)
 import           ScrapBook.Feed           ()
 import           ScrapBook.Json           ()
 import           ScrapBook.Write.Internal (Write (..))
 
-write :: IsSiteFields xs =>
-  Config -> Format -> [Post (Record xs)] -> Collecter Text
+write :: (IsSiteFields xs, HasWriteConfigFields ys) =>
+  Record ys -> Format -> [Post (Record xs)] -> Collecter Text
 write conf fmt posts = flip matchField fmt $
   htabulateFor (Proxy :: Proxy Write) $
     \m -> Field (Match . pure $ writeTo m conf posts)
 
-fileName :: Config -> Format -> FilePath
+fileName :: HasWriteConfigFields xs => Record xs -> Format -> FilePath
 fileName conf = matchField $
   htabulateFor (Proxy :: Proxy Write) $
     \m -> Field (Match . pure $ fileName' m conf)
 
-updateFileName :: Format -> FilePath -> Config -> Config
+updateFileName :: HasWriteConfigFields xs =>
+  Format -> FilePath -> Record xs -> Record xs
 updateFileName = matchField $
   htabulateFor (Proxy :: Proxy Write) $ Field . Match . pure . updateFileName'
