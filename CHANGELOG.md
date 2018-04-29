@@ -2,6 +2,8 @@
 
 ## Unreleased changes
 
+## 0.2.0
+
 - Feat: version option
 - Feat: RSS 2.0
 - Fix: remove namespace in xml tag
@@ -12,6 +14,9 @@
 - Fix: help message
 - Feat: add json output format
 - Feat: add config to filter links with attr on Atom feed
+- Refactor: use `rio` library
+- Refactor: change several functions to polymorphic with `extensible`
+- Fix: don't exit whole program when raise fetch exception
 
 ## Alpha
 
