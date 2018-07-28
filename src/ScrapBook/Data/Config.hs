@@ -42,7 +42,7 @@ type SiteConfig = Record
    ]
 
 readConfig :: FilePath -> IO (Maybe Config)
-readConfig = decodeFile
+readConfig = fmap (either (const Nothing) pure) . decodeFileEither
 
 toSite :: SiteConfig -> Site
 toSite conf

@@ -40,10 +40,7 @@ main = withGetOpt "[options] [input-file]" opts $ \r args ->
 
 runScrapBook :: Options -> IO ()
 runScrapBook opts = tapListT (readInputD opts) $&
-  traverseFrom_ consumeL (fmap liftIO $ writeOutput' opts <=< run' (opts ^. #write))
-
-consumeL :: (Monoid r, MonadSink (Tap r [a]) m) => m [a]
-consumeL = consume
+  traverseFrom_ consume (fmap liftIO $ writeOutput' opts <=< run' (opts ^. #write))
 
 readInput :: Options -> IO [Either ParseException Config]
 readInput opts = sequence $

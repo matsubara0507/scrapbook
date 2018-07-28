@@ -16,7 +16,6 @@ module ScrapBook.Fetch
 import           RIO
 
 import           Data.Extensible
-import           Data.Functor.Identity
 import           Data.Proxy               (Proxy (..))
 import           ScrapBook.Collecter
 import           ScrapBook.Data.Site

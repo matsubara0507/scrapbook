@@ -7,15 +7,14 @@
 module ScrapBook.Internal.Instances where
 
 import           RIO
-import qualified RIO.HashMap           as M.Hash
-import qualified RIO.Text              as T
+import qualified RIO.HashMap     as M.Hash
+import qualified RIO.Text        as T
 
-import           Data.Aeson            (ToJSON (..))
-import qualified Data.Aeson            as JSON
+import           Data.Aeson      (ToJSON (..))
+import qualified Data.Aeson      as JSON
 import           Data.Extensible
-import           Data.Functor.Identity
-import           Data.Proxy            (Proxy (..))
-import           GHC.TypeLits          (KnownSymbol, symbolVal)
+import           Data.Proxy      (Proxy (..))
+import           GHC.TypeLits    (KnownSymbol, symbolVal)
 
 instance Forall (KeyValue KnownSymbol ToJSON) xs => ToJSON (Variant xs) where
   toJSON = matchField $
