@@ -14,6 +14,12 @@ e.g.
 $ stack exec -- scrapbook -o "example" example/sites.yaml
 ```
 
+### Docker
+
+```
+$ docker run --rm -v `pwd`:/work matsubara0507/scrapbook bin/bash -c "cd work && scrapbook -o 'example' example/sites.yaml"
+```
+
 ### Command
 
 ```
