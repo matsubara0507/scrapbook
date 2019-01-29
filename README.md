@@ -1,7 +1,9 @@
 # scrapbook
 
-This is cli that collect posts of site that is wrote in config yaml using feed or scraping.
+[![Build Status](https://travis-ci.org/matsubara0507/scrapbook.svg?branch=master)](https://travis-ci.org/matsubara0507/scrapbook)
+[![](https://images.microbadger.com/badges/image/matsubara0507/scrapbook.svg)](https://microbadger.com/images/matsubara0507/scrapbook "Get your own image badge on microbadger.com")
 
+This is cli tool that collect posts of site that is wrote in config yaml using feed or scraping.
 
 ## Usage
 
