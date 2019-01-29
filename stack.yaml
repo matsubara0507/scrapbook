@@ -1,4 +1,4 @@
-resolver: lts-12.2
+resolver: lts-12.26
 packages:
 - .
 extra-deps:
@@ -6,3 +6,11 @@ extra-deps:
 - drinkery-0.4
 - git: https://github.com/matsubara0507/extensible-instances.git
   commit: a5b543cede63890c84d3f62f9c26349ae9f2e4fc
+
+docker:
+  repo: fpco/stack-build
+  enable: false
+image:
+  container:
+    name: scrapbook
+    base: fpco/ubuntu-with-libgmp

@@ -29,7 +29,6 @@ import           ScrapBook.Data.Site
 import qualified ScrapBook.Feed.Atom.Internal      as My
 import           ScrapBook.Fetch.Internal          (Fetch (..), fetchHtml,
                                                     throwFetchError)
-import           ScrapBook.Internal.Utils          ((<&>))
 import qualified Text.Atom.Feed                    as Atom
 import           Text.Feed.Import                  (parseFeedString)
 import           Text.Feed.Types                   (Feed (..))

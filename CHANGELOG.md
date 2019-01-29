@@ -2,6 +2,14 @@
 
 ## Unreleased changes
 
+- Refactor: update resolver to lts-12.26
+- Misc: support docker image
+- Misc: add TravisCI
+
+## 0.3.0
+
+- Refactor: update resolver to lts-12
+
 ## 0.2.0
 
 - Feat: version option
