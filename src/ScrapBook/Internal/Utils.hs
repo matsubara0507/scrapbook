@@ -23,8 +23,8 @@ valid p a = if p a then pure a else Nothing
 
 toHost :: Text -> Text
 toHost url = fromMaybe url
-    $ (mappend "https://" . T.takeWhile (/= '/')) <$> T.stripPrefix "https://" url
-  <|> (mappend "http://"  . T.takeWhile (/= '/')) <$> T.stripPrefix "http://"  url
+    $ mappend "https://" . T.takeWhile (/= '/') <$> T.stripPrefix "https://" url
+  <|> mappend "http://"  . T.takeWhile (/= '/') <$> T.stripPrefix "http://"  url
 
 formatTimeFromRFC822 :: Text -> Maybe Text
 formatTimeFromRFC822 time = formatTimeToRFC3339 <$>

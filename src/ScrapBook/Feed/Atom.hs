@@ -22,6 +22,7 @@ import qualified RIO.Map                      as M
 import qualified RIO.Text                     as T
 
 import           Data.Extensible
+import qualified Data.Ord                     as Ord
 import qualified Data.XML.Types               as XML (Content (..))
 import           ScrapBook.Data.Config
 import           ScrapBook.Data.Site
@@ -54,7 +55,7 @@ toAtomFeed conf posts =
     , Atom.feedLinks = [Atom.nullLink $ conf ^. #baseUrl]
     }
   where
-    posts' = reverse $ L.sortOn (view #date) posts
+    posts' = L.sortOn (Ord.Down . view #date) posts
 
 toEntry :: IsSiteFields xs => Post (Record xs) -> Atom.Entry
 toEntry post =
