@@ -2,6 +2,13 @@
 
 ## Unreleased changes
 
+- Misc: remove deps lib
+    - extensible-instances
+    - data-default-instances-text
+- Misc: update extensible to 0.5
+
+### 0.3.1
+
 - Refactor: update resolver to lts-12.26
 - Misc: support docker image
 - Misc: add TravisCI
