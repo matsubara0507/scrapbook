@@ -28,7 +28,7 @@ jobs:
       - docker tag scrapbook $TRAVIS_REPO_SLUG
       - docker push $TRAVIS_REPO_SLUG
     - stage: push docker image
-      if: branch = master AND type = tag
+      if: type = tag
       script:
       - stack docker pull
       - stack --docker image container
