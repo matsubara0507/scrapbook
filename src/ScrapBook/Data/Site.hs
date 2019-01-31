@@ -23,18 +23,15 @@ module ScrapBook.Data.Site
   ) where
 
 import           RIO
-import qualified RIO.Text                          as T
+import qualified RIO.Text                     as T
 
-import           Data.Aeson                        (ToJSON (..))
-import qualified Data.Aeson                        as JSON
-import           Data.Default                      (def)
-import           Data.Default.Instances.Text       ()
+import           Data.Aeson                   (ToJSON (..))
+import qualified Data.Aeson                   as JSON
 import           Data.Extensible
-import           Data.Extensible.Instances.Default ()
-import           GHC.TypeLits                      (KnownSymbol)
-import           ScrapBook.Internal.Instances      (kvToJSON)
-import           ScrapBook.Internal.Utils          (toHost)
-import           Text.Atom.Feed                    (Date)
+import           GHC.TypeLits                 (KnownSymbol)
+import           ScrapBook.Internal.Instances (kvToJSON)
+import           ScrapBook.Internal.Utils     (toHost)
+import           Text.Atom.Feed               (Date)
 
 type Site = Record SiteFields
 
@@ -66,7 +63,7 @@ type AtomConfig = Record
    ]
 
 toAtomConfig :: Url -> AtomConfig
-toAtomConfig url = def & #url `set` url
+toAtomConfig url = mempty & #url `set` url
 
 type Post s = Record
   '[ "title"   >: Text

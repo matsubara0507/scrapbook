@@ -28,7 +28,6 @@ dependencies:
 - data-default
 - data-default-instances-text
 - extensible
-- extensible-instances
 - feed
 - req
 - rio
