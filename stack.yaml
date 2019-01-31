@@ -2,7 +2,6 @@ resolver: lts-12.26
 packages:
 - .
 extra-deps:
-- data-default-instances-text-0.0.1
 - drinkery-0.4
 
 docker:
