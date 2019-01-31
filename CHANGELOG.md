@@ -2,6 +2,8 @@
 
 ## Unreleased changes
 
+### 0.3.2
+
 - Misc: remove deps lib
     - extensible-instances
     - data-default-instances-text
