@@ -14,18 +14,17 @@ module ScrapBook.Feed.RSS
   ) where
 
 import           RIO
-import qualified RIO.Text                          as T
+import qualified RIO.Text                 as T
 
 import           Data.Extensible
-import           Data.Extensible.Instances.Default ()
 import           ScrapBook.Data.Site
-import           ScrapBook.Fetch.Internal          (Fetch (..), fetchHtml,
-                                                    throwFetchError)
-import           ScrapBook.Internal.Utils          (formatTimeFromRFC822)
-import           Text.Feed.Import                  (parseFeedString)
-import           Text.Feed.Types                   (Feed (..))
-import           Text.RSS.Syntax                   (RSS, RSSItem)
-import qualified Text.RSS.Syntax                   as RSS
+import           ScrapBook.Fetch.Internal (Fetch (..), fetchHtml,
+                                           throwFetchError)
+import           ScrapBook.Internal.Utils (formatTimeFromRFC822)
+import           Text.Feed.Import         (parseFeedString)
+import           Text.Feed.Types          (Feed (..))
+import           Text.RSS.Syntax          (RSS, RSSItem)
+import qualified Text.RSS.Syntax          as RSS
 
 instance Fetch ("rss" >: Text) where
   fetchFrom _ site feedUrl = do

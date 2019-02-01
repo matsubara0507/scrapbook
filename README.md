@@ -1,5 +1,6 @@
 # scrapbook
 
+[![Hackage](https://img.shields.io/hackage/v/scrapbook.svg?style=flat)](https://hackage.haskell.org/package/scrapbook)
 [![Build Status](https://travis-ci.org/matsubara0507/scrapbook.svg?branch=master)](https://travis-ci.org/matsubara0507/scrapbook)
 [![](https://images.microbadger.com/badges/image/matsubara0507/scrapbook.svg)](https://microbadger.com/images/matsubara0507/scrapbook "Get your own image badge on microbadger.com")
 

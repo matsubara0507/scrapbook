@@ -1,9 +1,12 @@
 name:                scrapbook
-version:             0.3.1
+version:             0.3.3
+synopsis:            Automatically derive Kotlin class to query servant webservices
 github:              "matsubara0507/scrapbook"
 license:             MIT
 author:              "MATSUBARA Nobutada"
+maintainer:          "MATSUBARA Nobutada"
 copyright:           "2018 MATSUBARA Nobutada"
+category:            Web
 
 extra-source-files:
 - README.md
@@ -17,6 +20,7 @@ ghc-options:
 - -Wincomplete-record-updates
 - -Wincomplete-uni-patterns
 - -Wredundant-constraints
+- -optP-Wno-nonportable-include-path
 
 default-extensions:
 - NoImplicitPrelude
@@ -26,9 +30,7 @@ dependencies:
 - aeson-pretty
 - base >= 4.7 && < 5
 - data-default
-- data-default-instances-text
 - extensible
-- extensible-instances
 - feed
 - req
 - rio

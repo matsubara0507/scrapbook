@@ -16,23 +16,23 @@ module ScrapBook.Feed.Atom
   , toDocument
   ) where
 
-import qualified Data.List                         as L
+import qualified Data.List                    as L
 import           RIO
-import qualified RIO.Map                           as M
-import qualified RIO.Text                          as T
+import qualified RIO.Map                      as M
+import qualified RIO.Text                     as T
 
 import           Data.Extensible
-import           Data.Extensible.Instances.Default ()
-import qualified Data.XML.Types                    as XML (Content (..))
+import qualified Data.Ord                     as Ord
+import qualified Data.XML.Types               as XML (Content (..))
 import           ScrapBook.Data.Config
 import           ScrapBook.Data.Site
-import qualified ScrapBook.Feed.Atom.Internal      as My
-import           ScrapBook.Fetch.Internal          (Fetch (..), fetchHtml,
-                                                    throwFetchError)
-import qualified Text.Atom.Feed                    as Atom
-import           Text.Feed.Import                  (parseFeedString)
-import           Text.Feed.Types                   (Feed (..))
-import qualified Text.XML                          as XML
+import qualified ScrapBook.Feed.Atom.Internal as My
+import           ScrapBook.Fetch.Internal     (Fetch (..), fetchHtml,
+                                               throwFetchError)
+import qualified Text.Atom.Feed               as Atom
+import           Text.Feed.Import             (parseFeedString)
+import           Text.Feed.Types              (Feed (..))
+import qualified Text.XML                     as XML
 
 instance Fetch ("atom" >: AtomConfig) where
   fetchFrom _ site conf = do
@@ -55,7 +55,7 @@ toAtomFeed conf posts =
     , Atom.feedLinks = [Atom.nullLink $ conf ^. #baseUrl]
     }
   where
-    posts' = reverse $ L.sortOn (view #date) posts
+    posts' = L.sortOn (Ord.Down . view #date) posts
 
 toEntry :: IsSiteFields xs => Post (Record xs) -> Atom.Entry
 toEntry post =

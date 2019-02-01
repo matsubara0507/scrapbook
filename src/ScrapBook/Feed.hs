@@ -14,24 +14,23 @@ module ScrapBook.Feed
 
 import           RIO
 import           RIO.FilePath
-import qualified RIO.Text                          as T
-import qualified RIO.Text.Lazy                     as T.Lazy
+import qualified RIO.Text                 as T
+import qualified RIO.Text.Lazy            as T.Lazy
 
-import           Control.Monad.IO.Class            (liftIO)
-import           Data.Default                      (def)
+import           Control.Monad.IO.Class   (liftIO)
+import           Data.Default             (def)
 import           Data.Extensible
-import           Data.Extensible.Instances.Default ()
 import           ScrapBook.Collecter
 import           ScrapBook.Data.Config
 import           ScrapBook.Data.Site
 import           ScrapBook.Feed.Atom
-import           ScrapBook.Feed.RSS                (fromRSSFeed)
-import           ScrapBook.Fetch.Internal          (Fetch (..), fetchHtml,
-                                                    throwFetchError)
-import           ScrapBook.Write.Internal          (Write (..), throwWriteError)
-import           Text.Feed.Import                  (parseFeedString)
-import           Text.Feed.Types                   (Feed (..))
-import qualified Text.XML                          as XML
+import           ScrapBook.Feed.RSS       (fromRSSFeed)
+import           ScrapBook.Fetch.Internal (Fetch (..), fetchHtml,
+                                           throwFetchError)
+import           ScrapBook.Write.Internal (Write (..), throwWriteError)
+import           Text.Feed.Import         (parseFeedString)
+import           Text.Feed.Types          (Feed (..))
+import qualified Text.XML                 as XML
 
 instance Fetch ("feed" >: Text) where
   fetchFrom _ site url = do
@@ -48,12 +47,11 @@ instance Write ("feed" >: ()) where
     case toDocument (toAtomFeed conf' posts) of
       Left err   -> throwWriteError $ mconcat (toList err)
       Right docs -> pure $ T.Lazy.toStrict (XML.renderText def docs)
-  fileName' _ conf = feedName $ fromMaybe def (conf ^. #feed)
+  fileName' _ conf = feedName $ fromMaybe mempty (conf ^. #feed)
   updateFileName' _ path conf =
     conf & #feed `over` fmap (over #name $ maybe (pure $ T.pack name) pure)
     where
       name = replaceExtension (takeFileName path) "xml"
-
 
 writeFeed :: IsSiteFields xs =>
   FilePath -> FeedConfig -> [Post (Record xs)] -> Collecter ()
