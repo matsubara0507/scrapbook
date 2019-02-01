@@ -2,6 +2,10 @@
 
 ## Unreleased changes
 
+### 0.3.3
+
+- Misc: update package.yaml info for Hackage
+
 ### 0.3.2
 
 - Misc: remove deps lib
