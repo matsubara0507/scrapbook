@@ -12,6 +12,7 @@
 - Refactor: update config to build Docker image with stack v2
 - Refactor: change deps package to githash from gitrev
 - Refactor: remove deps package default-data
+- Misc: divid to core package (scrapbook-core)
 
 ### 0.3.3
 
