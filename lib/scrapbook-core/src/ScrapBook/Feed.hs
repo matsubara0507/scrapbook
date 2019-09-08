@@ -17,8 +17,6 @@ import           RIO.FilePath
 import qualified RIO.Text                 as T
 import qualified RIO.Text.Lazy            as T.Lazy
 
-import           Control.Monad.IO.Class   (liftIO)
-import           Data.Default             (def)
 import           Data.Extensible
 import           ScrapBook.Collecter
 import           ScrapBook.Data.Config
@@ -46,7 +44,7 @@ instance Write ("feed" >: ()) where
       maybe (throwWriteError "add feed config on yaml.") pure $ conf ^. #feed
     case toDocument (toAtomFeed conf' posts) of
       Left err   -> throwWriteError $ mconcat (toList err)
-      Right docs -> pure $ T.Lazy.toStrict (XML.renderText def docs)
+      Right docs -> pure $ T.Lazy.toStrict (XML.renderText XML.def docs)
   fileName' _ conf = feedName $ fromMaybe mempty (conf ^. #feed)
   updateFileName' _ path conf =
     conf & #feed `over` fmap (over #name $ maybe (pure $ T.pack name) pure)
@@ -58,6 +56,6 @@ writeFeed :: IsSiteFields xs =>
 writeFeed dir conf posts =
   case toDocument (toAtomFeed conf posts) of
     Left err   -> throwWriteError $ mconcat (toList err)
-    Right docs -> liftIO $ XML.writeFile def path docs
+    Right docs -> liftIO $ XML.writeFile XML.def path docs
   where
     path = mconcat [dir, "/", feedName conf]

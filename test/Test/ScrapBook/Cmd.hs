@@ -13,6 +13,12 @@ import           ScrapBook.Cmd
 import           Test.Tasty
 import           Test.Tasty.HUnit
 
+tests :: TestTree
+tests = testGroup "ScrapBook.Cmd"
+  [ testGroup "toCmd" test_toCmd
+  , testGroup "optParser" test_optParser
+  ]
+
 opts :: Options
 opts
     = #input   @= ["sites.yaml"]

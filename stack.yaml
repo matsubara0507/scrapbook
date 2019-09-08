@@ -1,14 +1,12 @@
-resolver: lts-12.26
+resolver: lts-14.4
 packages:
 - .
+- lib/scrapbook-core
 extra-deps:
 - drinkery-0.4
-- extensible-0.5
+- extensible-0.6.1
+- membership-0
 
 docker:
   repo: fpco/stack-build
   enable: false
-image:
-  container:
-    name: scrapbook
-    base: fpco/ubuntu-with-libgmp

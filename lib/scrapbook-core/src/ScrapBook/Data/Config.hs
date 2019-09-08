@@ -22,8 +22,8 @@ type Config = Record
    ]
 
 type HasWriteConfigFields xs =
-  ( Associate "feed" (Maybe FeedConfig) xs
-  , Associate "json" (Maybe Text) xs
+  ( Lookup xs "feed" (Maybe FeedConfig)
+  , Lookup xs "json" (Maybe Text)
   )
 
 type FeedConfig = Record

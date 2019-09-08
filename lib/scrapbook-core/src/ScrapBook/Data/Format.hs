@@ -10,10 +10,7 @@ module ScrapBook.Data.Format
 
 import           RIO
 
-import           Data.Default
 import           Data.Extensible
-import           Data.Proxy               (Proxy (..))
-import           GHC.TypeLits
 import           ScrapBook.Internal.Utils (valid)
 
 type Format = Variant FormatFields
@@ -27,11 +24,11 @@ optFormat :: [String] -> Format
 optFormat args = fromMaybe feed' (gen Nothing)
   where
     gen = henumerateFor
-      (Proxy :: Proxy (KeyValue KnownSymbol Default))
+      (Proxy :: Proxy (KeyTargetAre KnownSymbol Monoid))
       (Proxy :: Proxy FormatFields)
       $ \m r ->
-        let key = symbolVal $ proxyAssocKey m in
-        let val = EmbedAt m $ Field (pure def) in
+        let key = stringKeyOf m in
+        let val = EmbedAt m $ Field (pure mempty) in
         r <|> (fmap (const val) . valid (key ==) =<< listToMaybe args)
 
 feed' :: Format

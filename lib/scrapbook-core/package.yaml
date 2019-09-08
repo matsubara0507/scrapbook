@@ -1,11 +1,11 @@
-name:                scrapbook
+name:                scrapbook-core
 version:             0.4.0
-synopsis:            collect posts of site that is wrote in config yaml using feed or scraping
+synopsis:            Core Package for scrapbook
 github:              "matsubara0507/scrapbook"
 license:             MIT
 author:              "MATSUBARA Nobutada"
 maintainer:          "MATSUBARA Nobutada"
-copyright:           "2018 MATSUBARA Nobutada"
+copyright:           "2019 MATSUBARA Nobutada"
 category:            Web
 
 extra-source-files:
@@ -26,23 +26,25 @@ default-extensions:
 - NoImplicitPrelude
 
 dependencies:
+- aeson
+- aeson-pretty
 - base >= 4.7 && < 5
 - extensible >= 0.5
+- feed >= 1.2
+- req >= 2.0
 - rio >= 0.1.5
-- scrapbook-core
+- xml-conduit
+- xml-types
 - yaml
 
 library:
   source-dirs: src
-
-executables:
-  scrapbook:
-    main:                Main.hs
-    source-dirs:         app
-    dependencies:
-    - drinkery
-    - githash
-    - scrapbook
+  other-modules:
+  - ScrapBook.Feed.Atom.Internal
+  - ScrapBook.Fetch.Internal
+  - ScrapBook.Internal.Utils
+  - ScrapBook.Internal.Instances
+  - ScrapBook.Write.Internal
 
 tests:
   scrapbook-test:
@@ -51,6 +53,6 @@ tests:
     - test
     - src
     dependencies:
-    - scrapbook
+    - scrapbook-core
     - tasty
     - tasty-hunit

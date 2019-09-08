@@ -23,7 +23,7 @@ import           Data.Version           (Version)
 import qualified Data.Version           as Version
 import           Data.Yaml              (ParseException, decodeEither',
                                          decodeFileEither)
-import           Development.GitRev
+import qualified GitHash
 import           ScrapBook
 import           ScrapBook.Cmd
 
@@ -31,7 +31,7 @@ main :: IO ()
 main = withGetOpt "[options] [input-file]" opts $ \r args ->
   case toCmd (#input @= args <: r) of
     RunScrapBook opts' -> runScrapBook opts'
-    PrintVersion       -> B.putStr $ fromString (showVersion version)
+    PrintVersion       -> B.putStr $ fromString (showVersion version) <> "\n"
   where
     opts = #output  @= outputOpt
         <: #write   @= writeFormatOpt
@@ -58,7 +58,7 @@ writeOutput :: Options -> Config -> Text -> IO ()
 writeOutput opts conf txt =
   case opts ^. #output of
     Just dir -> writeFileWithDir (mconcat [dir, "/", name]) txt
-    Nothing  -> hPutBuilder stdin $ encodeUtf8Builder txt
+    Nothing  -> hPutBuilder stdout $ encodeUtf8Builder txt
   where
     name = fileName conf $ opts ^. #write
 
@@ -70,9 +70,11 @@ showVersion v = unwords
   [ "Version"
   , Version.showVersion v ++ ","
   , "Git revision"
-  , $(gitHash)
-  , "(" ++ $(gitCommitCount) ++ " commits)"
+  , GitHash.giHash gi
+  , "(" ++ show (GitHash.giCommitCount gi) ++ " commits)"
   ]
+  where
+    gi = $$(GitHash.tGitInfoCwd)
 
 terr :: CollectError -> IO ()
 terr err = hPutBuilder stderr $ encodeUtf8Builder (tshow err)

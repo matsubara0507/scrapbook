@@ -12,10 +12,10 @@ import           RIO.Time
 
 import           Data.Extensible
 
-embedM :: (Functor f, x ∈ xs) => Comp f h x -> f (h :| xs)
+embedM :: (Functor f, x ∈ xs) => Comp f h x -> f (xs :/ h)
 embedM = fmap embed . getComp
 
-embedAssocM :: (Functor f, Associate k a xs) => Comp f h (k >: a) -> f (h :| xs)
+embedAssocM :: (Functor f, Lookup xs k a) => Comp f h (k >: a) -> f (xs :/ h)
 embedAssocM = fmap embedAssoc . getComp
 
 valid :: (a -> Bool) -> a -> Maybe a

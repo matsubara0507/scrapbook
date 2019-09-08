@@ -28,7 +28,6 @@ import qualified RIO.Text                     as T
 import           Data.Aeson                   (ToJSON (..))
 import qualified Data.Aeson                   as JSON
 import           Data.Extensible
-import           GHC.TypeLits                 (KnownSymbol)
 import           ScrapBook.Internal.Instances (kvToJSON)
 import           ScrapBook.Internal.Utils     (toHost)
 import           Text.Atom.Feed               (Date)
@@ -43,11 +42,11 @@ type SiteFields =
    ]
 
 type IsSiteFields xs =
-  ( Forall (KeyValue KnownSymbol (Instance1 ToJSON Identity)) xs
-  , Associate "title" Text xs
-  , Associate "author" Text xs
-  , Associate "url" Url xs
-  , Associate "id" SiteId xs
+  ( Forall (KeyTargetAre KnownSymbol (Instance1 ToJSON Identity)) xs
+  , Lookup xs "title" Text
+  , Lookup xs "author" Text
+  , Lookup xs "url" Url
+  , Lookup xs "id" SiteId
   )
 
 type SiteId = Variant
