@@ -13,6 +13,7 @@
 - Refactor: change deps package to githash from gitrev
 - Refactor: remove deps package default-data
 - Misc: divid to core package (scrapbook-core)
+- Fix: mistake hPut stdin
 
 ### 0.3.3
 
