@@ -20,11 +20,3 @@ sites:
   #     url: http://kurokawh.blogspot.com/feeds/posts/default
   #     linkAttrs:
   #       rel: alternate
-  # - title: "BLOG dayo - nodejs, haskellなど"
-  #   author: "Daishi Nakajima"
-  #   url: http://blog.nakaji.me
-  #   feed: http://blog.nakaji.me/rss
-  # - title: "あどけない話"
-  #   author: "kazu-yamamoto"
-  #   url: http://d.hatena.ne.jp/kazu-yamamoto
-  #   rss: http://d.hatena.ne.jp/kazu-yamamoto/rss2
