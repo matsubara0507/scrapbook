@@ -23,7 +23,7 @@ import           Data.Version           (Version)
 import qualified Data.Version           as Version
 import           Data.Yaml              (ParseException, decodeEither',
                                          decodeFileEither)
-import           Development.GitRev
+import qualified GitHash
 import           ScrapBook
 import           ScrapBook.Cmd
 
@@ -70,9 +70,11 @@ showVersion v = unwords
   [ "Version"
   , Version.showVersion v ++ ","
   , "Git revision"
-  , $(gitHash)
-  , "(" ++ $(gitCommitCount) ++ " commits)"
+  , GitHash.giHash gi
+  , "(" ++ show (GitHash.giCommitCount gi) ++ " commits)"
   ]
+  where
+    gi = $$(GitHash.tGitInfoCwd)
 
 terr :: CollectError -> IO ()
 terr err = hPutBuilder stderr $ encodeUtf8Builder (tshow err)

@@ -15,7 +15,6 @@ module ScrapBook.Write
 import           RIO
 
 import           Data.Extensible
-import           Data.Proxy               (Proxy (..))
 import           ScrapBook.Collecter      (Collecter)
 import           ScrapBook.Data.Config    (HasWriteConfigFields)
 import           ScrapBook.Data.Format    (Format)

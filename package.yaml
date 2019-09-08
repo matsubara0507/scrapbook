@@ -29,11 +29,10 @@ dependencies:
 - aeson
 - aeson-pretty
 - base >= 4.7 && < 5
-- data-default
-- extensible
-- feed
-- req
-- rio
+- extensible >= 0.5
+- feed >= 1.2
+- req >= 2.0
+- rio >= 0.1.5
 - xml-conduit
 - xml-types
 - yaml
@@ -51,13 +50,9 @@ executables:
   scrapbook:
     main:                Main.hs
     source-dirs:         app
-    ghc-options:
-    - -threaded
-    - -rtsopts
-    - -with-rtsopts=-N
     dependencies:
     - drinkery
-    - gitrev
+    - githash
     - scrapbook
 
 tests:
@@ -66,10 +61,6 @@ tests:
     source-dirs:
     - test
     - src
-    ghc-options:
-    - -threaded
-    - -rtsopts
-    - -with-rtsopts=-N
     dependencies:
     - scrapbook
     - tasty

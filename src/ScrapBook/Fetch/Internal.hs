@@ -13,16 +13,14 @@ module ScrapBook.Fetch.Internal
 
 import           RIO
 
-import           Data.Default        (def)
 import           Data.Extensible
-import           Data.Proxy          (Proxy (..))
 import           Network.HTTP.Req
 import           ScrapBook.Collecter
 import           ScrapBook.Data.Site (IsSiteFields, Post)
 
 class Fetch kv where
   fetchFrom :: IsSiteFields xs =>
-    proxy kv -> Record xs -> AssocValue kv -> Collecter [Post (Record xs)]
+    proxy kv -> Record xs -> TargetOf kv -> Collecter [Post (Record xs)]
 
 fetchHtml :: Text -> Collecter Text
 fetchHtml url = do
@@ -36,11 +34,11 @@ get' :: HttpResponse r => Text -> Proxy r -> Collecter (Either HttpException r)
 get' url proxy =
   case parseUrlHttp (encodeUtf8 url) of
     Just (url', opts) ->
-      runReq' def (req GET url' NoReqBody proxy opts) <* sleep' 1000
+      runReq' defaultHttpConfig (req GET url' NoReqBody proxy opts) <* sleep' 1000
     Nothing ->
       case parseUrlHttps (encodeUtf8 url) of
         Just (url', opts) ->
-          runReq' def (req GET url' NoReqBody proxy opts) <* sleep' 1000
+          runReq' defaultHttpConfig (req GET url' NoReqBody proxy opts) <* sleep' 1000
         Nothing ->
           throwFetchError (Right $ "cannot parse url: " <> url)
   where

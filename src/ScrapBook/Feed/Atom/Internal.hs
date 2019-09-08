@@ -9,7 +9,7 @@ module ScrapBook.Feed.Atom.Internal
     ( xmlFeed
     ) where
 
-import           RIO
+import           RIO            hiding (Category)
 import qualified RIO.Text       as T
 
 import           Data.XML.Types as XML
@@ -126,8 +126,8 @@ xmlContent :: EntryContent -> XML.Element
 xmlContent cont = case cont of
   TextContent t ->
     (atomLeaf "content" t) { elementAttributes = [atomAttr "type" "text"] }
-  HTMLContent t ->
-    (atomLeaf "content" t) { elementAttributes = [atomAttr "type" "html"] }
+  HTMLContent x ->
+    (atomNode "content" [NodeElement x]) {elementAttributes = [atomAttr "type" "html"]}
   XHTMLContent x -> (atomNode "content" [NodeElement x])
     { elementAttributes = [atomAttr "type" "xhtml"]
     }

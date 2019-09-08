@@ -23,6 +23,14 @@ $ stack exec -- scrapbook -o "example" example/sites.yaml
 $ docker run --rm -v `pwd`:/work matsubara0507/scrapbook bin/bash -c "cd work && scrapbook -o 'example' example/sites.yaml"
 ```
 
+build docker image:
+
+```
+$ stack --docker build -j 1 Cabal # if out of memory in docker
+$ stack --docker --local-bin-path=./bin install
+$ docker build -t matsubara0507/scrapbook . --build-arg local_bin_path=./bin
+```
+
 ### Command
 
 ```
