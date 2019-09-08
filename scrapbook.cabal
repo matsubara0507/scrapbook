@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: bd9db7057e49945290e828918778698f122db0a3cf8c45bd7cce246fbcf130ba
+-- hash: 9c95f9dc7c56dcef429e021f5d1d469acff08f46bcc5dbfc571dcdaf86c4112c
 
 name:           scrapbook
 version:        0.4.0
@@ -63,4 +63,29 @@ executable scrapbook
     , yaml
   other-modules:
       Paths_scrapbook
+  default-language: Haskell2010
+
+test-suite scrapbook-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Test.ScrapBook.Cmd
+      ScrapBook.Cmd
+      ScrapBook.Cmd.Options
+      ScrapBook.Cmd.Run
+      Paths_scrapbook
+  hs-source-dirs:
+      test
+      src
+  default-extensions: NoImplicitPrelude
+  ghc-options: -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -optP-Wno-nonportable-include-path
+  build-depends:
+      base >=4.7 && <5
+    , extensible >=0.5
+    , rio >=0.1.5
+    , scrapbook
+    , scrapbook-core
+    , tasty
+    , tasty-hunit
+    , yaml
   default-language: Haskell2010

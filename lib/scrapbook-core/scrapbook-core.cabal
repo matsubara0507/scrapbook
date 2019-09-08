@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: a61140ca4d82eb27675bef2e34c497ef49068babcf6dfe675e441f9d37a0113b
+-- hash: cb510c3b3c6c838f7964fd4f62d45740fe44e5b7a7afcbb851f58d39837e21da
 
 name:           scrapbook-core
 version:        0.4.0
@@ -65,9 +65,8 @@ library
 
 test-suite scrapbook-test
   type: exitcode-stdio-1.0
-  main-is: Driver.hs
+  main-is: Spec.hs
   other-modules:
-      Test.ScrapBook.Cmd
       Test.ScrapBook.Data.Site
       Test.ScrapBook.Internal.Utils
       ScrapBook
@@ -100,7 +99,7 @@ test-suite scrapbook-test
     , feed >=1.2
     , req >=2.0
     , rio >=0.1.5
-    , scrapbook
+    , scrapbook-core
     , tasty
     , tasty-hunit
     , xml-conduit

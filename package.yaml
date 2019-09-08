@@ -1,6 +1,6 @@
 name:                scrapbook
 version:             0.4.0
-synopsis:            collect posts of site that is wrote in config yaml using feed or scraping 
+synopsis:            collect posts of site that is wrote in config yaml using feed or scraping
 github:              "matsubara0507/scrapbook"
 license:             MIT
 author:              "MATSUBARA Nobutada"
@@ -43,3 +43,14 @@ executables:
     - drinkery
     - githash
     - scrapbook
+
+tests:
+  scrapbook-test:
+    main: Spec.hs
+    source-dirs:
+    - test
+    - src
+    dependencies:
+    - scrapbook
+    - tasty
+    - tasty-hunit

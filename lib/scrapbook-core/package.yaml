@@ -48,11 +48,11 @@ library:
 
 tests:
   scrapbook-test:
-    main:                Driver.hs
+    main: Spec.hs
     source-dirs:
     - test
     - src
     dependencies:
-    - scrapbook
+    - scrapbook-core
     - tasty
     - tasty-hunit

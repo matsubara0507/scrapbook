@@ -8,6 +8,14 @@ import           ScrapBook.Internal.Utils
 import           Test.Tasty
 import           Test.Tasty.HUnit
 
+tests :: TestTree
+tests = testGroup "ScrapBook.Internal.Utils"
+  [ testGroup "valid" test_valid
+  , testGroup "toHost" test_toHost
+  , testGroup "formatTimeFromRFC822" test_formatTimeFromRFC822
+  ]
+
+
 test_valid :: [TestTree]
 test_valid =
   [ testCase "valid (const True)"  $ valid (const True)  'a' @?= Just 'a'

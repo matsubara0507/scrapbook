@@ -10,6 +10,11 @@ import           ScrapBook.Data.Site
 import           Test.Tasty
 import           Test.Tasty.HUnit
 
+tests :: TestTree
+tests = testGroup "ScrapBook.Data.Site"
+  [ testGroup "toAbsoluteUrl" test_toAbsoluteUrl
+  ]
+
 site :: Site
 site
     = #title @= "Hoge Site"
