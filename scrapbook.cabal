@@ -1,0 +1,139 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.31.2.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: c893ae5b881c014edb6683e15d71ed585976d2d81a4d89ca346a3e764c95a4a1
+
+name:           scrapbook
+version:        0.4.0
+synopsis:       Automatically derive Kotlin class to query servant webservices
+description:    Please see the README on GitHub at <https://github.com/matsubara0507/scrapbook#readme>
+category:       Web
+homepage:       https://github.com/matsubara0507/scrapbook#readme
+bug-reports:    https://github.com/matsubara0507/scrapbook/issues
+author:         MATSUBARA Nobutada
+maintainer:     MATSUBARA Nobutada
+copyright:      2018 MATSUBARA Nobutada
+license:        MIT
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+    CHANGELOG.md
+
+source-repository head
+  type: git
+  location: https://github.com/matsubara0507/scrapbook
+
+library
+  hs-source-dirs:
+      src
+  default-extensions: NoImplicitPrelude
+  ghc-options: -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -optP-Wno-nonportable-include-path
+  build-depends:
+      aeson
+    , aeson-pretty
+    , base >=4.7 && <5
+    , extensible >=0.5
+    , feed >=1.2
+    , req >=2.0
+    , rio >=0.1.5
+    , xml-conduit
+    , xml-types
+    , yaml
+  exposed-modules:
+      ScrapBook
+      ScrapBook.Cmd
+      ScrapBook.Cmd.Options
+      ScrapBook.Cmd.Run
+      ScrapBook.Collecter
+      ScrapBook.Data.Config
+      ScrapBook.Data.Format
+      ScrapBook.Data.Site
+      ScrapBook.Feed
+      ScrapBook.Feed.Atom
+      ScrapBook.Feed.RSS
+      ScrapBook.Fetch
+      ScrapBook.Json
+      ScrapBook.Write
+  other-modules:
+      ScrapBook.Feed.Atom.Internal
+      ScrapBook.Fetch.Internal
+      ScrapBook.Internal.Utils
+      ScrapBook.Internal.Instances
+      ScrapBook.Write.Internal
+  default-language: Haskell2010
+
+executable scrapbook
+  main-is: Main.hs
+  hs-source-dirs:
+      app
+  default-extensions: NoImplicitPrelude
+  ghc-options: -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -optP-Wno-nonportable-include-path
+  build-depends:
+      aeson
+    , aeson-pretty
+    , base >=4.7 && <5
+    , drinkery
+    , extensible >=0.5
+    , feed >=1.2
+    , githash
+    , req >=2.0
+    , rio >=0.1.5
+    , scrapbook
+    , xml-conduit
+    , xml-types
+    , yaml
+  other-modules:
+      Paths_scrapbook
+  default-language: Haskell2010
+
+test-suite scrapbook-test
+  type: exitcode-stdio-1.0
+  main-is: Driver.hs
+  hs-source-dirs:
+      test
+      src
+  default-extensions: NoImplicitPrelude
+  ghc-options: -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -optP-Wno-nonportable-include-path
+  build-depends:
+      aeson
+    , aeson-pretty
+    , base >=4.7 && <5
+    , extensible >=0.5
+    , feed >=1.2
+    , req >=2.0
+    , rio >=0.1.5
+    , scrapbook
+    , tasty
+    , tasty-hunit
+    , xml-conduit
+    , xml-types
+    , yaml
+  other-modules:
+      Test.ScrapBook.Cmd
+      Test.ScrapBook.Data.Site
+      Test.ScrapBook.Internal.Utils
+      ScrapBook
+      ScrapBook.Cmd
+      ScrapBook.Cmd.Options
+      ScrapBook.Cmd.Run
+      ScrapBook.Collecter
+      ScrapBook.Data.Config
+      ScrapBook.Data.Format
+      ScrapBook.Data.Site
+      ScrapBook.Feed
+      ScrapBook.Feed.Atom
+      ScrapBook.Feed.Atom.Internal
+      ScrapBook.Feed.RSS
+      ScrapBook.Fetch
+      ScrapBook.Fetch.Internal
+      ScrapBook.Internal.Instances
+      ScrapBook.Internal.Utils
+      ScrapBook.Json
+      ScrapBook.Write
+      ScrapBook.Write.Internal
+      Paths_scrapbook
+  default-language: Haskell2010
