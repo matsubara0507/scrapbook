@@ -7,7 +7,7 @@ env:
     - RESOLVER=lts-14.4
     - IMAGE=fpco/stack-build:${RESOLVER}
     - CACHE_FOLDER=$HOME/docker-images
-    - CACHE_FILE=${CACHE_FOLDER}/${RESOLVER}.tgz
+    - CACHE_FILE=${CACHE_FOLDER}/${RESOLVER}.tar
 
 cache:
   timeout: 360
@@ -23,7 +23,7 @@ install:
   - travis_retry curl -L https://www.stackage.org/stack/linux-x86_64 | tar xz --wildcards --strip-components=1 -C ~/.local/bin '*/stack'
   - docker pull ${IMAGE}
   - mkdir -p ${CACHE_FOLDER}
-  - docker save ${IMAGE} | gzip -c > ${CACHE_FILE}
+  - if [[ ! -f ${CACHE_FILE} ]]; then docker save ${IMAGE} -o ${CACHE_FILE}; fi
 
 jobs:
   include:
