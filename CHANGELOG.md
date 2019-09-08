@@ -2,6 +2,17 @@
 
 ## Unreleased changes
 
+## 0.4.0
+
+- Refactor: update resolver to lts-14.4
+  - update extensible package to 0.6.1
+  - update req package to 2.1.0
+  - update feed package to 1.2.0
+  - update rio package to 0.1.12
+- Refactor: update config to build Docker image with stack v2
+- Refactor: change deps package to githash from gitrev
+- Refactor: remove deps package default-data
+
 ### 0.3.3
 
 - Misc: update package.yaml info for Hackage
