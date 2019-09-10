@@ -21,13 +21,13 @@ install:
 jobs:
   include:
     - stage: build dependencies
-      script: stack --docker --no-terminal --install-ghc test --bench --only-dependencies
+      script: stack --docker --no-terminal --system-ghc test --only-dependencies
     - stage: run test
-      script: stack --docker --no-terminal test --bench --no-run-benchmarks --no-haddock-deps --pedantic
+      script: stack --docker --no-terminal --system-ghc test --no-haddock-deps --pedantic
     - stage: push docker image
       if: branch = master AND type = push
       script:
-      - stack --docker --local-bin-path=./bin install
+      - stack --docker --system-ghc --local-bin-path=./bin install
       - docker build -t scrapbook . --build-arg local_bin_path=./bin
       - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
       - docker tag scrapbook $TRAVIS_REPO_SLUG
@@ -35,7 +35,7 @@ jobs:
     - stage: push docker image
       if: type = tag
       script:
-      - stack --docker --local-bin-path=./bin install
+      - stack --docker --system-ghc --local-bin-path=./bin install
       - docker build -t scrapbook . --build-arg local_bin_path=./bin
       - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
       - docker tag scrapbook $TRAVIS_REPO_SLUG:$TRAVIS_TAG
