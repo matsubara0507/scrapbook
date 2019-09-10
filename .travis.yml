@@ -1,13 +1,10 @@
+language: haskell
+ghc:
+  - "8.6.5"
+
 sudo: required
 services:
   - docker
-language: generic
-env:
-  global:
-    - RESOLVER=lts-14.4
-    - IMAGE=fpco/stack-build:${RESOLVER}
-    - CACHE_FOLDER=$HOME/docker-images
-    - CACHE_FILE=${CACHE_FOLDER}/${RESOLVER}.tar
 
 cache:
   timeout: 360
@@ -15,27 +12,20 @@ cache:
     - "$HOME/.stack/"
     - "$HOME/.local/bin/"
     - ".stack-work/"
-    - ${CACHE_FOLDER}
 
 install:
   - mkdir -p ~/.local/bin
   - export PATH=$HOME/.local/bin:$PATH
   - travis_retry curl -L https://www.stackage.org/stack/linux-x86_64 | tar xz --wildcards --strip-components=1 -C ~/.local/bin '*/stack'
-  - docker pull ${IMAGE}
-  - mkdir -p ${CACHE_FOLDER}
-  - if [[ ! -f ${CACHE_FILE} ]]; then docker save ${IMAGE} -o ${CACHE_FILE}; fi
 
 jobs:
   include:
     - stage: build dependencies
-      before_script: if [[ -f ${CACHE_FILE} ]]; then docker load -i ${CACHE_FILE}; fi
       script: stack --docker --no-terminal --install-ghc test --bench --only-dependencies
     - stage: run test
-      before_script: if [[ -f ${CACHE_FILE} ]]; then docker load -i ${CACHE_FILE}; fi
       script: stack --docker --no-terminal test --bench --no-run-benchmarks --no-haddock-deps --pedantic
     - stage: push docker image
       if: branch = master AND type = push
-      before_script: if [[ -f ${CACHE_FILE} ]]; then docker load -i ${CACHE_FILE}; fi
       script:
       - stack --docker --local-bin-path=./bin install
       - docker build -t scrapbook . --build-arg local_bin_path=./bin
@@ -44,7 +34,6 @@ jobs:
       - docker push $TRAVIS_REPO_SLUG
     - stage: push docker image
       if: type = tag
-      before_script: if [[ -f ${CACHE_FILE} ]]; then docker load -i ${CACHE_FILE}; fi
       script:
       - stack --docker --local-bin-path=./bin install
       - docker build -t scrapbook . --build-arg local_bin_path=./bin

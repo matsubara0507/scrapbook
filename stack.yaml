@@ -8,5 +8,5 @@ extra-deps:
 - membership-0
 
 docker:
-  repo: fpco/stack-build
+  repo: matsubara0507/stack-build
   enable: false
