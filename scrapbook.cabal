@@ -1,13 +1,13 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.31.2.
+-- This file has been generated from package.yaml by hpack version 0.33.0.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 9c95f9dc7c56dcef429e021f5d1d469acff08f46bcc5dbfc571dcdaf86c4112c
+-- hash: c331e195d30d8a40a6dd4a3093627084e9d65e9d406494e57e06ef870301e959
 
 name:           scrapbook
-version:        0.4.0
+version:        0.5.0
 synopsis:       collect posts of site that is wrote in config yaml using feed or scraping
 description:    Please see the README on GitHub at <https://github.com/matsubara0507/scrapbook#readme>
 category:       Web
@@ -36,7 +36,7 @@ library
       base >=4.7 && <5
     , extensible >=0.5
     , rio >=0.1.5
-    , scrapbook-core
+    , scrapbook-core >=0.5
     , yaml
   exposed-modules:
       ScrapBook.Cmd
@@ -59,7 +59,7 @@ executable scrapbook
     , githash
     , rio >=0.1.5
     , scrapbook
-    , scrapbook-core
+    , scrapbook-core >=0.5
     , yaml
   other-modules:
       Paths_scrapbook
@@ -84,7 +84,7 @@ test-suite scrapbook-test
     , extensible >=0.5
     , rio >=0.1.5
     , scrapbook
-    , scrapbook-core
+    , scrapbook-core >=0.5
     , tasty
     , tasty-hunit
     , yaml

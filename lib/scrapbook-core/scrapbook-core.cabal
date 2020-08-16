@@ -4,10 +4,10 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 80686d1bb016da3b0e44375d0feb6d2f52146ea73125a1d0c1bd62500f8431e2
+-- hash: 07177cd9c7ed93914cb1a4a866f715eb356dd2fce01ec7eedb1ce164f4e395b8
 
 name:           scrapbook-core
-version:        0.4.0
+version:        0.5.0
 synopsis:       Core Package for scrapbook
 description:    Please see the README on GitHub at <https://github.com/matsubara0507/scrapbook#readme>
 category:       Web
