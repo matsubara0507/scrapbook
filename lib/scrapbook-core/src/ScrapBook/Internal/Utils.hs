@@ -32,4 +32,4 @@ formatTimeFromRFC822 time = formatTimeToRFC3339 <$>
 
 formatTimeToRFC3339 :: UTCTime -> Text
 formatTimeToRFC3339 =
-  T.pack . formatTime defaultTimeLocale (iso8601DateFormat $ Just "%H:%M:%S%EZ")
+  T.pack . formatTime defaultTimeLocale (iso8601DateFormat $ Just "%H:%M:%S%Ez")

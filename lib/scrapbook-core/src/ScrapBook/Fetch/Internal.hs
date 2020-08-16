@@ -17,6 +17,7 @@ import           Data.Extensible
 import           Network.HTTP.Req
 import           ScrapBook.Collecter
 import           ScrapBook.Data.Site (IsSiteFields, Post)
+import qualified Text.URI            as URI
 
 class Fetch kv where
   fetchFrom :: IsSiteFields xs =>
@@ -31,16 +32,15 @@ fetchHtml url = do
       either (throwFetchError . Right . tshow) pure $ decodeUtf8' (responseBody resp)
 
 get' :: HttpResponse r => Text -> Proxy r -> Collecter (Either HttpException r)
-get' url proxy =
-  case parseUrlHttp (encodeUtf8 url) of
-    Just (url', opts) ->
+get' url proxy = do
+  uri <- URI.mkURI url
+  case useURI uri of
+    Just (Right (url', opts)) ->
+      runReq' defaultHttpConfig (req GET url' NoReqBody proxy opts) <* sleep' 1000
+    Just (Left (url', opts)) ->
       runReq' defaultHttpConfig (req GET url' NoReqBody proxy opts) <* sleep' 1000
     Nothing ->
-      case parseUrlHttps (encodeUtf8 url) of
-        Just (url', opts) ->
-          runReq' defaultHttpConfig (req GET url' NoReqBody proxy opts) <* sleep' 1000
-        Nothing ->
-          throwFetchError (Right $ "cannot parse url: " <> url)
+      throwFetchError (Right $ "cannot parse url: " <> url)
   where
     sleep' :: Int -> Collecter ()
     sleep' n = logInfo (display $ "fethed: " <> url) *> threadDelay n

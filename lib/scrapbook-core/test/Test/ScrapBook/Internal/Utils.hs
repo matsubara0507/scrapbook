@@ -37,7 +37,7 @@ test_toHost =
 test_formatTimeFromRFC822 :: [TestTree]
 test_formatTimeFromRFC822 =
   [ testCase "correct case" $
-      formatTimeFromRFC822 "Tue, 06 Mar 2018 05:29:45 GMT" @?= Just "2018-03-06T05:29:45Z"
+      formatTimeFromRFC822 "Tue, 06 Mar 2018 05:29:45 GMT" @?= Just "2018-03-06T05:29:45+00:00"
   , testCase "empty string" $
       formatTimeFromRFC822 "" @?= Nothing
   ]

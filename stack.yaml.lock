@@ -12,12 +12,12 @@ packages:
   original:
     hackage: drinkery-0.4
 - completed:
-    hackage: extensible-0.6.1@sha256:d73a5dc13bd00f44ace729f83ce868e81a45ea31c7453a6f8a4a9b5b0591d600,2860
+    hackage: extensible-0.8@sha256:45ca089909ae434329e4d05dc557be94ff04f24c43ff9b915bd90c0599c83211,2911
     pantry-tree:
-      size: 2354
-      sha256: 9fadd24af89df601f19d57893b513d1742a1942670d6d2e73e79fb4b7aabce65
+      size: 2097
+      sha256: d602c9d623afd9186a4d55898ef97f0dfb7f81ffbd5bae86e2238b3694d702fb
   original:
-    hackage: extensible-0.6.1
+    hackage: extensible-0.8
 - completed:
     hackage: membership-0@sha256:3a11d8fd53cb1a76bb9273e6c929bbf9d649f109714bf487abb3143be04ddc81,995
     pantry-tree:
@@ -27,7 +27,7 @@ packages:
     hackage: membership-0
 snapshots:
 - completed:
-    size: 523884
-    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/14/4.yaml
-    sha256: 16f24be248b42c9e16d59db84378836b1e7c239448a041cae46d32daffa45a8b
-  original: lts-14.4
+    size: 532380
+    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/16/9.yaml
+    sha256: 14a7cec114424e4286adde73364438927a553ed248cc50f069a30a67e3ee1e69
+  original: lts-16.9
