@@ -1,7 +1,7 @@
 # scrapbook
 
 [![Hackage](https://img.shields.io/hackage/v/scrapbook.svg?style=flat)](https://hackage.haskell.org/package/scrapbook)
-[![Build Status](https://travis-ci.org/matsubara0507/scrapbook.svg?branch=master)](https://travis-ci.org/matsubara0507/scrapbook)
+![Build Application](https://github.com/matsubara0507/scrapbook/workflows/Build%20Application/badge.svg)
 [![](https://images.microbadger.com/badges/image/matsubara0507/scrapbook.svg)](https://microbadger.com/images/matsubara0507/scrapbook "Get your own image badge on microbadger.com")
 
 This is cli tool that collect posts of site that is wrote in config yaml using feed or scraping.
