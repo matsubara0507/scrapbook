@@ -126,8 +126,8 @@ xmlContent :: EntryContent -> XML.Element
 xmlContent cont = case cont of
   TextContent t ->
     (atomLeaf "content" t) { elementAttributes = [atomAttr "type" "text"] }
-  HTMLContent x ->
-    (atomNode "content" [NodeElement x]) {elementAttributes = [atomAttr "type" "html"]}
+  HTMLContent t ->
+    (atomLeaf "content" t) {elementAttributes = [atomAttr "type" "html"]}
   XHTMLContent x -> (atomNode "content" [NodeElement x])
     { elementAttributes = [atomAttr "type" "xhtml"]
     }

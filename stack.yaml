@@ -1,10 +1,10 @@
-resolver: lts-14.4
+resolver: lts-16.9
 packages:
 - .
 - lib/scrapbook-core
 extra-deps:
 - drinkery-0.4
-- extensible-0.6.1
+- extensible-0.8
 - membership-0
 
 docker:
