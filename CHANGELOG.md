@@ -2,6 +2,9 @@
 
 ## Unreleased changes
 
+- CI: use GitHub Actions
+  - remove TravisCI config
+
 ## 0.4.0
 
 - Refactor: update resolver to lts-14.4
