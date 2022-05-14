@@ -2,6 +2,9 @@
 
 ## Unreleased changes
 
+## 0.6.0
+
+- Refactor: support GHC 9.0 and 9.2
 - CI: use GitHub Actions
   - remove TravisCI config
 

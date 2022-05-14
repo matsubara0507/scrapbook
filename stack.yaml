@@ -1,12 +1,17 @@
-resolver: lts-16.9
+resolver: nightly-2022-05-12
 packages:
 - .
 - lib/scrapbook-core
 extra-deps:
-- drinkery-0.4
-- extensible-0.8
-- membership-0
+# - drinkery-0.4
+- github: fumieval/drinkery
+  commit: 091238b90ca617ff5676cec0ae4a8cb5f79d37e6
+# - extensible-0.8.3
+- github: fumieval/extensible
+  commit: 4a1edb50c90d377085fcc3bad4c9f6e9d296b00e
+- membership-0.0.1
+- incremental-0.3.1
 
 docker:
-  repo: matsubara0507/stack-build
+  repo: ghcr.io/matsubara0507/stack-build:20.04
   enable: false

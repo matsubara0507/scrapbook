@@ -1,5 +1,5 @@
 name:                scrapbook
-version:             0.5.0
+version:             0.6.0
 synopsis:            collect posts of site that is wrote in config yaml using feed or scraping
 github:              "matsubara0507/scrapbook"
 license:             MIT
