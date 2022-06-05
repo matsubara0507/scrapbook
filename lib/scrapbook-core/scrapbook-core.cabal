@@ -1,13 +1,13 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.33.0.
+-- This file has been generated from package.yaml by hpack version 0.34.4.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 07177cd9c7ed93914cb1a4a866f715eb356dd2fce01ec7eedb1ce164f4e395b8
+-- hash: 4d47fc5c4157d3b28b935b1b7934636c97381e210b0fee99310a2fca6d076538
 
 name:           scrapbook-core
-version:        0.5.0
+version:        0.6.0
 synopsis:       Core Package for scrapbook
 description:    Please see the README on GitHub at <https://github.com/matsubara0507/scrapbook#readme>
 category:       Web
@@ -48,7 +48,8 @@ library
       ScrapBook.Write.Internal
   hs-source-dirs:
       src
-  default-extensions: NoImplicitPrelude
+  default-extensions:
+      NoImplicitPrelude
   ghc-options: -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -optP-Wno-nonportable-include-path
   build-depends:
       aeson
@@ -90,7 +91,8 @@ test-suite scrapbook-test
   hs-source-dirs:
       test
       src
-  default-extensions: NoImplicitPrelude
+  default-extensions:
+      NoImplicitPrelude
   ghc-options: -Wall -Wcompat -Wincomplete-record-updates -Wincomplete-uni-patterns -Wredundant-constraints -optP-Wno-nonportable-include-path
   build-depends:
       aeson
